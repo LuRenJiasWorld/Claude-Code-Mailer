@@ -22,7 +22,7 @@ class ClaudeMailerCLI {
 
   setupCommands() {
     this.program
-      .name('claude-mailer')
+      .name('claude-code-mailer')
       .description('Claude Code email notification service')
       .version(getVersion());
 

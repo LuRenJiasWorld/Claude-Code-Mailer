@@ -101,7 +101,7 @@ Project-level configs override global settings but are overridden by environment
 ### Local Development
 
 ```bash
-cd /data/dev/claude-mailer
+cd /data/dev/claude-code-mailer
 pnpm install
 ```
 
@@ -112,7 +112,7 @@ For global usage with the `claude-code-mailer` command:
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd claude-mailer
+cd claude-code-mailer
 
 # Install dependencies
 pnpm install
@@ -349,7 +349,7 @@ If you prefer manual configuration, add the following to `~/.claude/settings.jso
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -359,7 +359,7 @@ If you prefer manual configuration, add the following to `~/.claude/settings.jso
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -369,7 +369,7 @@ If you prefer manual configuration, add the following to `~/.claude/settings.jso
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -379,7 +379,7 @@ If you prefer manual configuration, add the following to `~/.claude/settings.jso
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -389,7 +389,7 @@ If you prefer manual configuration, add the following to `~/.claude/settings.jso
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -399,7 +399,7 @@ If you prefer manual configuration, add the following to `~/.claude/settings.jso
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -440,7 +440,7 @@ Log file locations:
 ## Project Structure
 
 ```
-claude-mailer/
+claude-code-mailer/
 ├── src/
 │   ├── index.js          # Main entry point
 │   ├── mailer.js         # Email sending core

@@ -11,7 +11,7 @@ const CLAUDE_MAILER_HOOKS = {
     hooks: [
       {
         type: "command",
-        command: "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+        command: "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
       }
     ]
   },
@@ -19,7 +19,7 @@ const CLAUDE_MAILER_HOOKS = {
     hooks: [
       {
         type: "command",
-        command: "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+        command: "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
       }
     ]
   },
@@ -27,7 +27,7 @@ const CLAUDE_MAILER_HOOKS = {
     hooks: [
       {
         type: "command",
-        command: "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+        command: "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
       }
     ]
   }
@@ -100,7 +100,7 @@ function hasClaudeMailerHook(settings, eventType) {
       for (const hook of hookGroup.hooks) {
         if (hook.type === 'command' && 
             hook.command && 
-            hook.command.includes('claude-mailer/bin/cli.js send --stdin')) {
+            hook.command.includes('claude-code-mailer/bin/cli.js send --stdin')) {
           return true;
         }
       }
@@ -144,10 +144,10 @@ function installClaudeMailerHooks(settings) {
 
 // Detect Claude Code Mailer installation directory
 function detectClaudeMailerDirectory() {
-  // Default path (current script location relative to claude-mailer directory)
+  // Default path (current script location relative to claude-code-mailer directory)
   const scriptDir = path.dirname(__filename);
   const possiblePaths = [
-    '/data/dev/claude-mailer',
+    '/data/dev/claude-code-mailer',
     path.join(scriptDir, '..'),
     process.cwd()
   ];
@@ -215,7 +215,7 @@ function install() {
   if (!claudeMailerDir) {
     console.error('❌ Could not detect Claude Code Mailer installation directory');
     console.log('Please ensure Claude Code Mailer is installed in one of these locations:');
-    console.log('  - /data/dev/claude-mailer');
+    console.log('  - /data/dev/claude-code-mailer');
     console.log('  - Current working directory');
     console.log('  - Same directory as this script');
     process.exit(1);
@@ -282,7 +282,7 @@ function uninstall() {
         return !hookGroup.hooks.some(hook => 
           hook.type === 'command' && 
           hook.command && 
-          hook.command.includes('claude-mailer/bin/cli.js send --stdin')
+          hook.command.includes('claude-code-mailer/bin/cli.js send --stdin')
         );
       }
       return true;

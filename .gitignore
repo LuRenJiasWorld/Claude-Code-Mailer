@@ -95,5 +95,5 @@ Thumbs.db
 
 # Claude specific
 .claude/
-claude-mailer.log
+claude-code-mailer.log
 

@@ -176,7 +176,7 @@ function uninstallClaudeMailerHooks(settings) {
           hook.type === 'command' && 
           hook.command && 
           (hook.command.includes('claude-code-mailer send --stdin') ||
-           hook.command.includes('claude-mailer') && hook.command.includes('send --stdin'))
+           hook.command.includes('claude-code-mailer') && hook.command.includes('send --stdin'))
         );
       }
       return true;

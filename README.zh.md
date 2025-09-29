@@ -100,7 +100,7 @@ echo "TEMPLATE_LANGUAGE=en" >> .env
 ### 本地开发
 
 ```bash
-cd /data/dev/claude-mailer
+cd /data/dev/claude-code-mailer
 pnpm install
 ```
 
@@ -111,7 +111,7 @@ pnpm install
 ```bash
 # 克隆仓库
 git clone <repository-url>
-cd claude-mailer
+cd claude-code-mailer
 
 # 安装依赖
 pnpm install
@@ -379,7 +379,7 @@ node bin/install-claude.js
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -389,7 +389,7 @@ node bin/install-claude.js
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -399,7 +399,7 @@ node bin/install-claude.js
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -409,7 +409,7 @@ node bin/install-claude.js
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -419,7 +419,7 @@ node bin/install-claude.js
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -429,7 +429,7 @@ node bin/install-claude.js
         "hooks": [
           {
             "type": "command",
-            "command": "node /data/dev/claude-mailer/bin/cli.js send --stdin"
+            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
           }
         ]
       }
@@ -470,7 +470,7 @@ node bin/install-claude.js
 ## 项目结构
 
 ```
-claude-mailer/
+claude-code-mailer/
 ├── src/
 │   ├── index.js          # 主要入口
 │   ├── mailer.js         # 邮件发送核心
