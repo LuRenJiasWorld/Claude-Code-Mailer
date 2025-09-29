@@ -17,9 +17,37 @@ Claude Code 的独立邮件通知服务，使用 Nodemailer 发送邮件。
 
 ## 安装依赖
 
+### 本地开发
+
 ```bash
 cd /data/dev/claude-mailer
 pnpm install
+```
+
+### 全局安装
+
+用于全局使用 `claude-code-mailer` 命令：
+
+```bash
+# 克隆仓库
+git clone <repository-url>
+cd claude-mailer
+
+# 安装依赖
+pnpm install
+
+# 全局安装
+npm install -g .
+```
+
+全局安装后，您可以在任何地方使用 CLI：
+
+```bash
+claude-code-mailer install    # 安装 Claude Code hooks
+claude-code-mailer send       # 发送邮件通知
+claude-code-mailer test       # 发送测试邮件
+claude-code-mailer verify     # 验证 SMTP 连接
+claude-code-mailer uninstall  # 移除 Claude Code hooks
 ```
 
 ## 配置
@@ -147,45 +175,54 @@ content:
 
 ### CLI 命令
 
-#### 验证 SMTP 连接
+CLI 可以通过两种方式使用：
+
+#### 全局使用（在 `npm install -g .` 之后）
 ```bash
-node bin/cli.js verify
+# 验证 SMTP 连接
+claude-code-mailer verify
+
+# 发送测试邮件
+claude-code-mailer test
+
+# 发送通知邮件
+claude-code-mailer send --event Notification --session test-session
+
+# 发送自定义邮件
+claude-code-mailer custom --subject "测试邮件" --message "这是一封测试邮件"
+
+# 显示配置
+claude-code-mailer config
+
+# 安装/卸载 Claude Code hooks
+claude-code-mailer install
+claude-code-mailer uninstall
 ```
 
-#### 发送测试邮件
+#### 本地开发使用
 ```bash
-node bin/cli.js test
-```
+# 验证 SMTP 连接
+node bin/claude-code-mailer.js verify
 
-#### 发送通知邮件
-```bash
+# 发送测试邮件
+node bin/claude-code-mailer.js test
+
+# 发送通知邮件
 # 从标准输入读取 JSON
-echo '{"hook_event_name":"Notification","session_id":"test-session"}' | node bin/cli.js send --stdin
+echo '{"hook_event_name":"Notification","session_id":"test-session"}' | node bin/claude-code-mailer.js send --stdin
 
 # 使用命令行参数
-node bin/cli.js send --event Notification --session test-session
-```
+node bin/claude-code-mailer.js send --event Notification --session test-session
 
-#### 发送自定义邮件
-```bash
-node bin/cli.js custom --subject "测试邮件" --message "这是一封测试邮件"
-```
+# 发送自定义邮件
+node bin/claude-code-mailer.js custom --subject "测试邮件" --message "这是一封测试邮件"
 
-#### 显示配置
-```bash
-node bin/cli.js config
-```
+# 显示配置
+node bin/claude-code-mailer.js config
 
-#### 安装/卸载 Claude Code hooks
-```bash
-# 自动安装 Claude Code hooks
-node bin/install-claude.js
-
-# 卸载 Claude Code hooks
-node bin/install-claude.js --uninstall
-
-# 显示帮助
-node bin/install-claude.js --help
+# 安装/卸载 Claude Code hooks
+node bin/claude-code-mailer.js install
+node bin/claude-code-mailer.js uninstall
 ```
 
 ### 编程接口
@@ -207,6 +244,31 @@ await mailer.sendCustomEmail({
 // 验证连接
 await mailer.verifyConnection();
 ```
+
+### 可用命令
+
+`claude-code-mailer` CLI 支持以下命令：
+
+| 命令 | 描述 |
+|------|------|
+| `send` | 发送邮件通知（默认命令） |
+| `install` | 自动安装 Claude Code hooks |
+| `uninstall` | 卸载 Claude Code hooks |
+| `test` | 发送测试邮件 |
+| `verify` | 验证 SMTP 连接 |
+| `config` | 显示当前配置 |
+| `custom` | 发送自定义邮件 |
+| `help` | 显示帮助信息 |
+
+### 全局安装优势
+
+全局安装（`npm install -g .`）后，Claude Code Mailer 提供：
+
+- **系统级访问**: 在任何目录使用 `claude-code-mailer`
+- **自动路径检测**: 智能查找安装位置
+- **统一 CLI**: 单一入口点处理所有功能
+- **向后兼容**: 保留所有现有功能
+- **简单集成**: 简化的 Claude Code hooks 安装和管理
 
 ## Claude Code 集成
 
@@ -430,4 +492,4 @@ pnpm test
 
 ## 许可证
 
-MIT License
+本项目采用 MIT 许可证 - 详情请查看 [LICENSE](LICENSE) 文件。

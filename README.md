@@ -18,9 +18,37 @@ A standalone email notification service for Claude Code, built with Node.js and 
 
 ## Installation
 
+### Local Development
+
 ```bash
 cd /data/dev/claude-mailer
 pnpm install
+```
+
+### Global Installation
+
+For global usage with the `claude-code-mailer` command:
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd claude-mailer
+
+# Install dependencies
+pnpm install
+
+# Install globally
+npm install -g .
+```
+
+After global installation, you can use the CLI from anywhere:
+
+```bash
+claude-code-mailer install    # Install Claude Code hooks
+claude-code-mailer send       # Send email notification
+claude-code-mailer test       # Send test email
+claude-code-mailer verify     # Verify SMTP connection
+claude-code-mailer uninstall  # Remove Claude Code hooks
 ```
 
 ## Configuration
@@ -117,45 +145,54 @@ defaults:
 
 ### CLI Commands
 
-#### Verify SMTP connection
+The CLI can be used in two ways:
+
+#### Global Usage (after `npm install -g .`)
 ```bash
-node bin/cli.js verify
+# Verify SMTP connection
+claude-code-mailer verify
+
+# Send test email
+claude-code-mailer test
+
+# Send notification email
+claude-code-mailer send --event Notification --session test-session
+
+# Send custom email
+claude-code-mailer custom --subject "Test Email" --message "This is a test email"
+
+# Show configuration
+claude-code-mailer config
+
+# Install/Uninstall Claude Code hooks
+claude-code-mailer install
+claude-code-mailer uninstall
 ```
 
-#### Send test email
+#### Local Development Usage
 ```bash
-node bin/cli.js test
-```
+# Verify SMTP connection
+node bin/claude-code-mailer.js verify
 
-#### Send notification email
-```bash
+# Send test email
+node bin/claude-code-mailer.js test
+
+# Send notification email
 # Read JSON from stdin
-echo '{"hook_event_name":"Notification","session_id":"test-session"}' | node bin/cli.js send --stdin
+echo '{"hook_event_name":"Notification","session_id":"test-session"}' | node bin/claude-code-mailer.js send --stdin
 
 # Use command line arguments
-node bin/cli.js send --event Notification --session test-session
-```
+node bin/claude-code-mailer.js send --event Notification --session test-session
 
-#### Send custom email
-```bash
-node bin/cli.js custom --subject "Test Email" --message "This is a test email"
-```
+# Send custom email
+node bin/claude-code-mailer.js custom --subject "Test Email" --message "This is a test email"
 
-#### Show configuration
-```bash
-node bin/cli.js config
-```
+# Show configuration
+node bin/claude-code-mailer.js config
 
-#### Install/Uninstall Claude Code hooks
-```bash
-# Install Claude Code hooks automatically
-node bin/install-claude.js
-
-# Uninstall Claude Code hooks
-node bin/install-claude.js --uninstall
-
-# Show help
-node bin/install-claude.js --help
+# Install/Uninstall Claude Code hooks
+node bin/claude-code-mailer.js install
+node bin/claude-code-mailer.js uninstall
 ```
 
 ### Programming Interface
@@ -177,6 +214,31 @@ await mailer.sendCustomEmail({
 // Verify connection
 await mailer.verifyConnection();
 ```
+
+### Available Commands
+
+The `claude-code-mailer` CLI supports the following commands:
+
+| Command | Description |
+|---------|-------------|
+| `send` | Send email notification (default command) |
+| `install` | Install Claude Code hooks automatically |
+| `uninstall` | Uninstall Claude Code hooks |
+| `test` | Send test email |
+| `verify` | Verify SMTP connection |
+| `config` | Show current configuration |
+| `custom` | Send custom email |
+| `help` | Show help information |
+
+### Global Installation Benefits
+
+When installed globally (`npm install -g .`), Claude Code Mailer provides:
+
+- **System-wide access**: Use `claude-code-mailer` from any directory
+- **Automatic path detection**: Intelligently finds installation location
+- **Unified CLI**: Single entry point for all functionality
+- **Backward compatibility**: All existing functionality preserved
+- **Easy integration**: Simple Claude Code hooks installation and management
 
 ## Claude Code Integration
 
@@ -382,4 +444,4 @@ pnpm test
 
 ## License
 
-MIT License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

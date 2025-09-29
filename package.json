@@ -1,10 +1,10 @@
 {
-  "name": "claude-mailer",
+  "name": "claude-code-mailer",
   "version": "1.0.0",
-  "description": "Claude Code email notification service using Nodemailer",
+  "description": "Smart email notifications for Claude Code with automatic hooks installation and multilingual templates",
   "main": "src/index.js",
   "bin": {
-    "claude-mailer": "./bin/cli.js"
+    "claude-code-mailer": "./bin/claude-code-mailer.js"
   },
   "scripts": {
     "start": "node src/index.js",
@@ -15,10 +15,15 @@
   },
   "keywords": [
     "claude",
+    "claude-code",
     "email",
     "notification",
     "nodemailer",
-    "smtp"
+    "smtp",
+    "hooks",
+    "automation",
+    "multilingual",
+    "cli"
   ],
   "author": "Claude Code",
   "license": "MIT",
@@ -38,6 +43,9 @@
     "src/",
     "bin/",
     "config/",
-    "README.md"
+    "README.md",
+    "README.zh.md",
+    "LICENSE",
+    ".env.template"
   ]
 }
