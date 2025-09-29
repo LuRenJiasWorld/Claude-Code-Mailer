@@ -71,4 +71,4 @@ jobs:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: |
         echo "📦 Publishing claude-code-mailer@${{ steps.get-version.outputs.version }} to NPM"
-        pnpm publish
+        pnpm publish --no-git-checks
