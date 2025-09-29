@@ -12,11 +12,6 @@
     "test": "node test/test.js",
     "build": "echo 'No build step required'",
     "lint": "echo 'No linting configured'",
-    "release": "node scripts/release.js",
-    "release:patch": "pnpm run release patch",
-    "release:minor": "pnpm run release minor",
-    "release:major": "pnpm run release major"
-  },
   "keywords": [
     "claude",
     "claude-code",
