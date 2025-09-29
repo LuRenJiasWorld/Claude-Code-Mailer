@@ -1,0 +1,80 @@
+subjects:
+  Notification: "Your attention needed"
+  Stop: "Task completed"
+  SubagentStop: "Subtask completed"
+  Error: "Error encountered"
+  Warning: "Reminder"
+  Info: "Information"
+
+content:
+  Notification: |
+    Current time is {{timestamp}} 
+    
+    {{#if message}}
+    > {{message}} 
+    
+    {{/if}}Working directory: {{cwd}} 
+    Session ID: {{sessionId}} 
+    
+    Please open Claude Code terminal for details. 
+  
+  Stop: |
+    Current time is {{timestamp}} 
+    
+    {{#if message}}
+    > {{message}} 
+    
+    {{/if}}Working directory: {{cwd}} 
+    Session ID: {{sessionId}} 
+    
+    Please check terminal for details. 
+  
+  SubagentStop: |
+    Current time is {{timestamp}} 
+    
+    {{#if message}}
+    > {{message}} 
+    
+    {{/if}}Working directory: {{cwd}} 
+    Session ID: {{sessionId}} 
+    
+    Please check terminal for details. 
+  
+  Error: |
+    Current time is {{timestamp}} 
+    
+    {{#if message}}
+    > {{message}} 
+    
+    {{/if}}Working directory: {{cwd}} 
+    Session ID: {{sessionId}} 
+    Error message: {{error}} 
+    
+    Please check terminal for details. 
+  
+  Warning: |
+    Current time is {{timestamp}} 
+    
+    {{#if message}}
+    > {{message}} 
+    
+    {{/if}}Working directory: {{cwd}} 
+    Session ID: {{sessionId}} 
+    Warning message: {{warning}} 
+    
+    Please check terminal for details. 
+  
+  Info: |
+    Current time is {{timestamp}} 
+    
+    {{#if message}}
+    > {{message}} 
+    
+    {{/if}}Working directory: {{cwd}} 
+    Session ID: {{sessionId}} 
+    
+    Please check terminal for details. 
+
+defaults:
+  subject: "Notification"
+  message: ""

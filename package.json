@@ -1,0 +1,43 @@
+{
+  "name": "claude-mailer",
+  "version": "1.0.0",
+  "description": "Claude Code email notification service using Nodemailer",
+  "main": "src/index.js",
+  "bin": {
+    "claude-mailer": "./bin/cli.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node test/test.js",
+    "build": "echo 'No build step required'",
+    "lint": "echo 'No linting configured'"
+  },
+  "keywords": [
+    "claude",
+    "email",
+    "notification",
+    "nodemailer",
+    "smtp"
+  ],
+  "author": "Claude Code",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
+    "js-yaml": "^4.1.0",
+    "nodemailer": "^6.9.15"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "src/",
+    "bin/",
+    "config/",
+    "README.md"
+  ]
+}
