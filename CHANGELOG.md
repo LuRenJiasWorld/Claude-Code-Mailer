@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.1] - 2024-09-29
+## [1.2.1] - 2025-09-29
 
 ### Added
 - Complete version management system with CHANGELOG.md
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced project documentation with development guidelines
 - Added commit type examples and formatting rules
 
-## [1.2.0] - 2024-09-29
+## [1.2.0] - 2025-09-29
 
 ### Changed
 - Unified project name from "Claude Mailer" to "Claude Code Mailer" across all files
@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated LICENSE copyright information
 - Updated CLAUDE.md project rules document
 
-## [1.1.1] - 2024-09-29
+## [1.1.1] - 2025-09-29
 
 ### Added
 - Added GitHub repository URL to package.json for npm registry integration
@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Version bump for npm publishing with repository field
 
-## [1.1.0] - 2024-09-29
+## [1.1.0] - 2025-09-29
 
 ### Added
 - Flexible configuration system with multi-level priority support
@@ -52,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced documentation with quick start sections
 - Updated configuration examples and setup instructions
 
-## [1.0.0] - 2024-09-29
+## [1.0.0] - 2025-09-29
 
 ### Added
 - Initial release of Claude Code Mailer as a globally installable npm package
