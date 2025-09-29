@@ -102,3 +102,74 @@ node bin/cli.js config
 # 验证所有语言的模板文件
 ls config/templates.*.yaml
 ```
+
+## 版本管理和提交规范
+
+### 版本发布流程
+每次发布新版本时，必须：
+
+1. **更新 CHANGELOG.md**
+   - 在对应版本号下添加详细的修改内容
+   - 使用标准的格式：Added, Changed, Fixed, Deprecated, Removed, Security
+   - 包含具体的修改内容和影响范围
+
+2. **版本号管理**
+   - 遵循 Semantic Versioning (semver) 规范
+   - 主版本号：不兼容的 API 修改
+   - 次版本号：向下兼容的功能性新增
+   - 修订版本号：向下兼容的问题修正
+
+### Commit Message 规范
+
+**必须使用英文编写 commit message**
+
+#### 格式要求
+```
+<type>(<scope>): <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+#### Type 类型
+- **feat**: 新功能
+- **fix**: 修复问题
+- **docs**: 文档更新
+- **style**: 代码格式修改（不影响功能）
+- **refactor**: 代码重构
+- **test**: 测试相关修改
+- **chore**: 构建或辅助工具的变动
+
+#### Scope 范围（可选）
+- 指明影响范围，如：config, templates, cli, docs, readme
+- 示例：`feat(config): add global configuration support`
+
+#### Description 描述
+- 简短描述，使用现在时态
+- 首字母小写，不加句号
+- 示例：`add global configuration file auto-creation`
+
+#### 示例
+```
+feat(config): add global configuration file auto-creation
+- Add automatic config file creation at ~/.claude-mailer/.env
+- Implement smart project detection for project-level configs
+- Update configuration priority system
+
+fix(cli): resolve hook detection issue
+- Fix uninstall logic to detect both old and new hook formats
+- Update detection regex to include claude-code-mailer commands
+- Add backward compatibility for existing installations
+
+docs(readme): update quick start guide
+- Add npm installation instructions
+- Update configuration examples
+- Improve getting started section
+```
+
+### CHANGELOG.md 维护
+- 使用 Keep a Changelog 格式
+- 每个版本按类型分组修改内容
+- 包含链接到对应的版本号
+- 新版本发布时必须更新
