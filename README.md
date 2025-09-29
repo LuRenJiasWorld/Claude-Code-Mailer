@@ -146,6 +146,18 @@ node bin/cli.js custom --subject "Test Email" --message "This is a test email"
 node bin/cli.js config
 ```
 
+#### Install/Uninstall Claude Code hooks
+```bash
+# Install Claude Code hooks automatically
+node bin/install-claude.js
+
+# Uninstall Claude Code hooks
+node bin/install-claude.js --uninstall
+
+# Show help
+node bin/install-claude.js --help
+```
+
 ### Programming Interface
 
 ```javascript
@@ -168,9 +180,24 @@ await mailer.verifyConnection();
 
 ## Claude Code Integration
 
-### Configuration
+### Automatic Installation
 
-Add the following configuration to `~/.claude/settings.json`:
+Use the automatic installation script to configure Claude Code hooks:
+
+```bash
+node bin/install-claude.js
+```
+
+This script will:
+- 🎯 Automatically detect Claude Mailer installation directory
+- 🔧 Add Claude Mailer hooks to `~/.claude/settings.json`
+- 🛡️ Preserve existing configuration
+- 🚫 Prevent duplicate installations
+- 📊 Show installation summary
+
+### Manual Configuration
+
+If you prefer manual configuration, add the following to `~/.claude/settings.json`:
 
 ```json
 {
@@ -278,7 +305,8 @@ claude-mailer/
 │   ├── config-loader.js  # Configuration loader
 │   └── logger.js         # Logger
 ├── bin/
-│   └── cli.js            # CLI tool
+│   ├── cli.js            # CLI tool
+│   └── install-claude.js # Claude Code hooks installer
 ├── config/
 │   ├── templates.zh-CN.yaml  # Simplified Chinese templates
 │   ├── templates.zh-HK.yaml  # Traditional Chinese templates

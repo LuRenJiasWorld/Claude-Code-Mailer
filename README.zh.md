@@ -176,6 +176,18 @@ node bin/cli.js custom --subject "测试邮件" --message "这是一封测试邮
 node bin/cli.js config
 ```
 
+#### 安装/卸载 Claude Code hooks
+```bash
+# 自动安装 Claude Code hooks
+node bin/install-claude.js
+
+# 卸载 Claude Code hooks
+node bin/install-claude.js --uninstall
+
+# 显示帮助
+node bin/install-claude.js --help
+```
+
 ### 编程接口
 
 ```javascript
@@ -198,9 +210,24 @@ await mailer.verifyConnection();
 
 ## Claude Code 集成
 
-### 配置方法
+### 自动安装
 
-在 `~/.claude/settings.json` 中添加以下配置：
+使用自动安装脚本来配置 Claude Code hooks：
+
+```bash
+node bin/install-claude.js
+```
+
+这个脚本将：
+- 🎯 自动检测 Claude Mailer 安装目录
+- 🔧 将 Claude Mailer hooks 添加到 `~/.claude/settings.json`
+- 🛡️ 保留现有配置
+- 🚫 防止重复安装
+- 📊 显示安装摘要
+
+### 手动配置
+
+如果您喜欢手动配置，请在 `~/.claude/settings.json` 中添加以下内容：
 
 ```json
 {
@@ -308,7 +335,8 @@ claude-mailer/
 │   ├── config-loader.js  # 配置加载器
 │   └── logger.js         # 日志记录器
 ├── bin/
-│   └── cli.js            # CLI 工具
+│   ├── cli.js            # CLI 工具
+│   └── install-claude.js # Claude Code hooks 安装器
 ├── config/
 │   ├── templates.zh-CN.yaml  # 简体中文模板
 │   ├── templates.zh-HK.yaml  # 繁体中文模板
@@ -334,6 +362,27 @@ claude-mailer/
 1. 在 `config/` 目录下创建新的模板文件（如 `templates.ja.yaml`）
 2. 复制现有模板结构并翻译内容
 3. 在 `.env.template` 中添加新语言选项说明
+
+### 使用自动安装脚本
+
+项目提供了 `bin/install-claude.js` 脚本，可以自动将 Claude Mailer hooks 安装到 Claude Code 配置中：
+
+- **智能检测**: 自动检测 Claude Mailer 安装目录
+- **安全安装**: 保留现有配置，不会覆盖其他 hooks
+- **防重复**: 自动检测已安装的 hooks，避免重复安装
+- **支持卸载**: 可以一键卸载所有 Claude Mailer hooks
+
+使用方法：
+```bash
+# 安装 hooks
+node bin/install-claude.js
+
+# 卸载 hooks
+node bin/install-claude.js --uninstall
+
+# 查看帮助
+node bin/install-claude.js --help
+```
 
 ### 配置管理
 
