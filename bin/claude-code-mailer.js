@@ -146,7 +146,7 @@ function writeClaudeSettings(settings) {
   }
 }
 
-// Check if Claude Mailer hook already exists
+// Check if Claude Code Mailer hook already exists
 function hasClaudeMailerHook(settings, eventType) {
   if (!settings.hooks || !settings.hooks[eventType]) {
     return false;
@@ -169,7 +169,7 @@ function hasClaudeMailerHook(settings, eventType) {
   return false;
 }
 
-// Install Claude Mailer hooks
+// Install Claude Code Mailer hooks
 function installClaudeMailerHooks(settings, packageDir) {
   const events = Object.keys(CLAUDE_MAILER_HOOKS);
   let installedCount = 0;
@@ -207,7 +207,7 @@ function installClaudeMailerHooks(settings, packageDir) {
   return { installedCount, skippedCount };
 }
 
-// Uninstall Claude Mailer hooks
+// Uninstall Claude Code Mailer hooks
 function uninstallClaudeMailerHooks(settings) {
   if (!settings.hooks) {
     console.log('ℹ️  No hooks found in Claude settings');
@@ -222,7 +222,7 @@ function uninstallClaudeMailerHooks(settings) {
   for (const eventType of events) {
     const originalLength = settings.hooks[eventType].length;
     
-    // Filter out Claude Mailer hooks
+    // Filter out Claude Code Mailer hooks
     settings.hooks[eventType] = settings.hooks[eventType].filter(hookGroup => {
       if (hookGroup.hooks && Array.isArray(hookGroup.hooks)) {
         return !hookGroup.hooks.some(hook => 

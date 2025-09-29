@@ -52,7 +52,7 @@ class ConfigLoader {
             fs.mkdirSync(configDir, { recursive: true });
         }
 
-        const defaultConfig = `# Claude Mailer Configuration
+        const defaultConfig = `# Claude Code Mailer Configuration
 # Copy this file to .env and fill in your settings
 
 # SMTP Configuration

@@ -1,4 +1,4 @@
-# Claude Mailer
+# Claude Code Mailer
 
 A standalone email notification service for Claude Code, built with Node.js and Nodemailer.
 
@@ -24,7 +24,7 @@ That's it! You're ready to receive email notifications from Claude Code.
 
 ## Configuration
 
-Claude Mailer supports flexible configuration with automatic config file creation.
+Claude Code Mailer supports flexible configuration with automatic config file creation.
 
 ### Config File Locations
 
@@ -37,7 +37,7 @@ The tool automatically looks for configuration files in this order:
 
 ### First Run Setup
 
-When you first run Claude Mailer, it will:
+When you first run Claude Code Mailer, it will:
 
 1. Create a global config file at `~/.claude-mailer/.env`
 2. Ask you to edit it with your email settings
@@ -331,8 +331,8 @@ node bin/install-claude.js
 ```
 
 This script will:
-- 🎯 Automatically detect Claude Mailer installation directory
-- 🔧 Add Claude Mailer hooks to `~/.claude/settings.json`
+- 🎯 Automatically detect Claude Code Mailer installation directory
+- 🔧 Add Claude Code Mailer hooks to `~/.claude/settings.json`
 - 🛡️ Preserve existing configuration
 - 🚫 Prevent duplicate installations
 - 📊 Show installation summary

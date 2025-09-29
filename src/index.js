@@ -8,7 +8,7 @@ class ClaudeMailer {
         this.logger = new Logger(options.logger);
         this.mailer = new Mailer(this.configLoader.getConfig());
         
-        this.logger.info('Claude Mailer 初始化完成', {
+        this.logger.info('Claude Code Mailer 初始化完成', {
             config: this.mailer.getConfig()
         });
     }

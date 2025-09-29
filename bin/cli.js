@@ -182,7 +182,7 @@ class ClaudeMailerCLI {
     const mailer = new ClaudeMailer();
     const config = mailer.getConfig();
     
-    console.log('📧 Claude Mailer 配置:');
+    console.log('📧 Claude Code Mailer 配置:');
     console.log(JSON.stringify(config, null, 2));
     process.exit(0);
   }
@@ -191,8 +191,8 @@ class ClaudeMailerCLI {
     const mailer = new ClaudeMailer();
     
     const result = await mailer.sendNotification('Info', { sessionId: 'test-session' }, {
-      subject: 'Claude Mailer 测试邮件',
-      message: '这是一封来自 Claude Mailer 的测试邮件。',
+      subject: 'Claude Code Mailer 测试邮件',
+      message: '这是一封来自 Claude Code Mailer 的测试邮件。',
       details: '如果您收到这封邮件，说明邮件发送功能正常工作。'
     });
 

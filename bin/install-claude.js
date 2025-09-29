@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
-// Claude Mailer hooks configuration
+// Claude Code Mailer hooks configuration
 const CLAUDE_MAILER_HOOKS = {
   Notification: {
     hooks: [
@@ -109,7 +109,7 @@ function writeClaudeSettings(settings) {
   }
 }
 
-// Check if Claude Mailer hook already exists
+// Check if Claude Code Mailer hook already exists
 function hasClaudeMailerHook(settings, eventType) {
   if (!settings.hooks || !settings.hooks[eventType]) {
     return false;
@@ -117,7 +117,7 @@ function hasClaudeMailerHook(settings, eventType) {
   
   const hooks = settings.hooks[eventType];
   
-  // Check if any of the hooks contain the Claude Mailer command
+  // Check if any of the hooks contain the Claude Code Mailer command
   for (const hookGroup of hooks) {
     if (hookGroup.hooks && Array.isArray(hookGroup.hooks)) {
       for (const hook of hookGroup.hooks) {
@@ -133,13 +133,13 @@ function hasClaudeMailerHook(settings, eventType) {
   return false;
 }
 
-// Install Claude Mailer hooks
+// Install Claude Code Mailer hooks
 function installClaudeMailerHooks(settings) {
   const events = Object.keys(CLAUDE_MAILER_HOOKS);
   let installedCount = 0;
   let skippedCount = 0;
   
-  console.log('\n🔧 Installing Claude Mailer hooks...\n');
+  console.log('\n🔧 Installing Claude Code Mailer hooks...\n');
   
   // Ensure hooks object exists
   if (!settings.hooks) {
@@ -165,7 +165,7 @@ function installClaudeMailerHooks(settings) {
   return { installedCount, skippedCount };
 }
 
-// Detect Claude Mailer installation directory
+// Detect Claude Code Mailer installation directory
 function detectClaudeMailerDirectory() {
   // Default path (current script location relative to claude-mailer directory)
   const scriptDir = path.dirname(__filename);
@@ -210,7 +210,7 @@ function updateCommandPaths(settings, claudeMailerDir) {
 
 // Show current configuration
 function showCurrentConfig(settings) {
-  console.log('\n📋 Current Claude Mailer Configuration:\n');
+  console.log('\n📋 Current Claude Code Mailer Configuration:\n');
   
   const events = ['Notification', 'Stop', 'SubagentStop', 'Error', 'Warning', 'Info'];
   let hasAnyHooks = false;
@@ -225,26 +225,26 @@ function showCurrentConfig(settings) {
   }
   
   if (!hasAnyHooks) {
-    console.log('ℹ️  No Claude Mailer hooks found in Claude settings');
+    console.log('ℹ️  No Claude Code Mailer hooks found in Claude settings');
   }
 }
 
 // Main installation function
 function install() {
-  console.log('🚀 Claude Mailer Hooks Installation Script\n');
+  console.log('🚀 Claude Code Mailer Hooks Installation Script\n');
   
-  // Detect Claude Mailer directory
+  // Detect Claude Code Mailer directory
   const claudeMailerDir = detectClaudeMailerDirectory();
   if (!claudeMailerDir) {
-    console.error('❌ Could not detect Claude Mailer installation directory');
-    console.log('Please ensure Claude Mailer is installed in one of these locations:');
+    console.error('❌ Could not detect Claude Code Mailer installation directory');
+    console.log('Please ensure Claude Code Mailer is installed in one of these locations:');
     console.log('  - /data/dev/claude-mailer');
     console.log('  - Current working directory');
     console.log('  - Same directory as this script');
     process.exit(1);
   }
   
-  console.log(`📂 Detected Claude Mailer at: ${claudeMailerDir}`);
+  console.log(`📂 Detected Claude Code Mailer at: ${claudeMailerDir}`);
   
   // Read existing settings
   const settings = readClaudeSettings();
@@ -268,21 +268,21 @@ function install() {
     console.log(`   ⏭️  Skipped: ${skippedCount} hooks (already installed)`);
     
     console.log('\n📝 Next steps:');
-    console.log('   1. Ensure Claude Mailer is properly configured');
+    console.log('   1. Ensure Claude Code Mailer is properly configured');
     console.log('   2. Test the hooks by triggering Claude Code events');
     console.log('   3. Check your email for notifications');
     
-    console.log('\n🔧 To uninstall Claude Mailer hooks:');
+    console.log('\n🔧 To uninstall Claude Code Mailer hooks:');
     console.log('   Run this script again with --uninstall flag');
     
   } else {
-    console.log('\n✅ All Claude Mailer hooks are already installed!');
+    console.log('\n✅ All Claude Code Mailer hooks are already installed!');
   }
 }
 
 // Uninstall function
 function uninstall() {
-  console.log('🗑️  Claude Mailer Hooks Uninstallation Script\n');
+  console.log('🗑️  Claude Code Mailer Hooks Uninstallation Script\n');
   
   const settings = readClaudeSettings();
   
@@ -294,12 +294,12 @@ function uninstall() {
   const events = Object.keys(settings.hooks);
   let removedCount = 0;
   
-  console.log('🔍 Removing Claude Mailer hooks...\n');
+  console.log('🔍 Removing Claude Code Mailer hooks...\n');
   
   for (const eventType of events) {
     const originalLength = settings.hooks[eventType].length;
     
-    // Filter out Claude Mailer hooks
+    // Filter out Claude Code Mailer hooks
     settings.hooks[eventType] = settings.hooks[eventType].filter(hookGroup => {
       if (hookGroup.hooks && Array.isArray(hookGroup.hooks)) {
         return !hookGroup.hooks.some(hook => 
@@ -328,7 +328,7 @@ function uninstall() {
     console.log('\n🎉 Uninstallation completed successfully!');
     console.log(`\n📊 Summary: Removed ${removedCount} hooks`);
   } else {
-    console.log('\nℹ️  No Claude Mailer hooks found to remove');
+    console.log('\nℹ️  No Claude Code Mailer hooks found to remove');
   }
 }
 
@@ -336,14 +336,14 @@ function uninstall() {
 const args = process.argv.slice(2);
 
 if (args.includes('--help') || args.includes('-h')) {
-  console.log('Claude Mailer Hooks Installation Script\n');
+  console.log('Claude Code Mailer Hooks Installation Script\n');
   console.log('Usage:');
-  console.log('  node bin/install-claude.js          Install Claude Mailer hooks');
-  console.log('  node bin/install-claude.js --uninstall  Remove Claude Mailer hooks');
+  console.log('  node bin/install-claude.js          Install Claude Code Mailer hooks');
+  console.log('  node bin/install-claude.js --uninstall  Remove Claude Code Mailer hooks');
   console.log('  node bin/install-claude.js --help     Show this help message\n');
   console.log('This script automatically:');
-  console.log('  • Detects Claude Mailer installation directory');
-  console.log('  • Adds Claude Mailer hooks to ~/.claude/settings.json');
+  console.log('  • Detects Claude Code Mailer installation directory');
+  console.log('  • Adds Claude Code Mailer hooks to ~/.claude/settings.json');
   console.log('  • Preserves existing configuration');
   console.log('  • Prevents duplicate installations');
   process.exit(0);

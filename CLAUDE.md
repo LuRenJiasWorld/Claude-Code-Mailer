@@ -1,4 +1,4 @@
-# Claude Mailer Project - 多语言项目管理规则
+# Claude Code Mailer Project - 多语言项目管理规则
 
 ## 项目语言支持
 本项目支持三种语言，所有修改必须同步到所有语言版本：
