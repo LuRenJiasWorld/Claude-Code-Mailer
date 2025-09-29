@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2024-09-29
+
+### Added
+- Complete version management system with CHANGELOG.md
+- Commit message standards and conventions in CLAUDE.md
+- Version release process following Semantic Versioning
+- English-only commit message requirements with conventional format
+
+### Changed
+- Enhanced project documentation with development guidelines
+- Added commit type examples and formatting rules
+
 ## [1.2.0] - 2024-09-29
 
 ### Changed
