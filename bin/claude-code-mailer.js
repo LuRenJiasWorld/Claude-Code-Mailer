@@ -272,12 +272,24 @@ function showCurrentConfig(settings) {
 }
 
 // Create the program
+// Read version from package.json
+function getVersion() {
+  try {
+    const packageDir = getPackageDir();
+    const packagePath = path.join(packageDir, 'package.json');
+    const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+    return packageJson.version;
+  } catch (error) {
+    return '1.0.0'; // fallback version
+  }
+}
+
 const program = new Command();
 
 program
   .name('claude-code-mailer')
   .description('Smart email notifications for Claude Code')
-  .version('1.0.0');
+  .version(getVersion());
 
 // Send command (default)
 program

@@ -3,6 +3,17 @@ const ClaudeMailer = require('../src/index');
 const fs = require('fs');
 const path = require('path');
 
+// Read version from package.json
+function getVersion() {
+  try {
+    const packagePath = path.join(__dirname, '..', 'package.json');
+    const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+    return packageJson.version;
+  } catch (error) {
+    return '1.0.0'; // fallback version
+  }
+}
+
 class ClaudeMailerCLI {
   constructor() {
     this.program = new Command();
@@ -13,7 +24,7 @@ class ClaudeMailerCLI {
     this.program
       .name('claude-mailer')
       .description('Claude Code email notification service')
-      .version('1.0.0');
+      .version(getVersion());
 
     // Send command
     this.program
