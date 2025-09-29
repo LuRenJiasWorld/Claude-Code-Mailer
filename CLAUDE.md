@@ -191,7 +191,7 @@ git push origin v1.x.x
 #### 示例
 ```
 feat(config): add global configuration file auto-creation
-- Add automatic config file creation at ~/.claude-mailer/.env
+- Add automatic config file creation at ~/.claude-code-mailer/.env
 - Implement smart project detection for project-level configs
 - Update configuration priority system
 

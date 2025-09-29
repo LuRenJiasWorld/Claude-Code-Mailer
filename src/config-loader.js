@@ -10,7 +10,7 @@ class ConfigLoader {
 
     // 获取用户配置目录
     getUserConfigDir() {
-        return path.join(os.homedir(), '.claude-mailer');
+        return path.join(os.homedir(), '.claude-code-mailer');
     }
 
     // 获取全局配置文件路径
@@ -84,7 +84,7 @@ TIMEOUT=10000
         // 配置文件加载优先级：
         // 1. 环境变量（最高优先级）
         // 2. 项目级 .env 文件
-        // 3. 全局配置文件 ~/.claude-mailer/.env
+        // 3. 全局配置文件 ~/.claude-code-mailer/.env
         // 4. 默认值
 
         let configData = {};

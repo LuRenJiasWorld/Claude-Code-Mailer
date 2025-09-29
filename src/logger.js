@@ -3,7 +3,7 @@ const path = require('path');
 
 class Logger {
     constructor(options = {}) {
-        this.logDir = options.logDir || path.join(process.env.HOME || '/tmp', '.claude-mailer');
+        this.logDir = options.logDir || path.join(process.env.HOME || '/tmp', '.claude-code-mailer');
         this.logFile = path.join(this.logDir, 'mailer.log');
         this.errorFile = path.join(this.logDir, 'error.log');
         this.enableConsole = options.enableConsole !== false;

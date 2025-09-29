@@ -29,7 +29,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrisfxliu/claude-mailer.git"
+    "url": "git+https://github.com/LuRenJiasWorld/Claude-Code-Mailer.git"
   },
   "dependencies": {
     "commander": "^12.1.0",

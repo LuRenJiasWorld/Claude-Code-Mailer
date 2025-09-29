@@ -126,7 +126,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Flexible configuration system with multi-level priority support
-- Global configuration file auto-creation at `~/.claude-mailer/.env`
+- Global configuration file auto-creation at `~/.claude-code-mailer/.env`
 - Project-level configuration support with `.env` files
 - Local development installation script (`install-local.sh`)
 - Enhanced configuration priority: Environment variables → Project .env → Global config → Defaults

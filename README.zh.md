@@ -32,14 +32,14 @@ Claude Code Mailer 支持灵活的配置方式，并自动创建配置文件。
 
 1. **环境变量**（最高优先级）
 2. **项目级 `.env`** 文件（在项目根目录）
-3. **全局配置文件** `~/.claude-mailer/.env`（自动创建）
+3. **全局配置文件** `~/.claude-code-mailer/.env`（自动创建）
 4. **默认值**（最低优先级）
 
 ### 首次运行设置
 
 当您第一次运行 Claude Code Mailer 时，它会：
 
-1. 在 `~/.claude-mailer/.env` 创建全局配置文件
+1. 在 `~/.claude-code-mailer/.env` 创建全局配置文件
 2. 提示您编辑邮件设置
 3. 提供包含所有必要配置选项的模板
 
@@ -464,8 +464,8 @@ node bin/install-claude.js
 ## 日志
 
 日志文件位置：
-- 普通日志：`~/.claude-mailer/mailer.log`
-- 错误日志：`~/.claude-mailer/error.log`
+- 普通日志：`~/.claude-code-mailer/mailer.log`
+- 错误日志：`~/.claude-code-mailer/error.log`
 
 ## 项目结构
 
@@ -564,7 +564,7 @@ pnpm test
 ### 邮件发送失败
 1. 验证收件人邮箱地址
 2. 检查邮件内容格式
-3. 查看 `~/.claude-mailer/error.log` 日志
+3. 查看 `~/.claude-code-mailer/error.log` 日志
 
 ### 权限问题
 1. 确保脚本有执行权限：`chmod +x bin/cli.js`

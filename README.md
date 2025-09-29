@@ -32,14 +32,14 @@ The tool automatically looks for configuration files in this order:
 
 1. **Environment Variables** (highest priority)
 2. **Project-level `.env`** file (in project root)
-3. **Global Config File** `~/.claude-mailer/.env` (created automatically)
+3. **Global Config File** `~/.claude-code-mailer/.env` (created automatically)
 4. **Default Values** (lowest priority)
 
 ### First Run Setup
 
 When you first run Claude Code Mailer, it will:
 
-1. Create a global config file at `~/.claude-mailer/.env`
+1. Create a global config file at `~/.claude-code-mailer/.env`
 2. Ask you to edit it with your email settings
 3. Provide a template with all necessary configuration options
 
@@ -434,8 +434,8 @@ If you prefer manual configuration, add the following to `~/.claude/settings.jso
 ## Logs
 
 Log file locations:
-- Regular logs: `~/.claude-mailer/mailer.log`
-- Error logs: `~/.claude-mailer/error.log`
+- Regular logs: `~/.claude-code-mailer/mailer.log`
+- Error logs: `~/.claude-code-mailer/error.log`
 
 ## Project Structure
 
@@ -516,7 +516,7 @@ pnpm test
 ### Email Sending Failed
 1. Verify recipient email address
 2. Check email content format
-3. View `~/.claude-mailer/error.log` logs
+3. View `~/.claude-code-mailer/error.log` logs
 
 ### Permission Issues
 1. Ensure script has execute permission: `chmod +x bin/cli.js`
