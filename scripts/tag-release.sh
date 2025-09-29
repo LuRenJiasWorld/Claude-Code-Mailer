@@ -28,54 +28,16 @@ if [[ "$CURRENT_BRANCH" != "main" ]]; then
     exit 1
 fi
 
-# 检查是否有未提交的更改
+# 检查工作目录是否干净
 if [[ -n "$(git status --porcelain)" ]]; then
-    echo "📋 检测到未提交的更改，自动提交中..."
-    
-    # 获取最近的 commit 信息来分析更改类型
-    RECENT_COMMITS=$(git log --oneline -5)
-    echo "🔍 最近提交历史:"
-    echo "$RECENT_COMMITS"
+    echo "❌ 错误: 工作目录不干净，请先提交所有更改"
+    echo "💡 提示: 使用以下命令提交更改"
+    echo "   git add ."
+    echo "   git commit -m 'your commit message'"
     echo ""
-    
-    # 自动分析更改并生成 commit message
-    echo "📝 分析更改内容..."
-    
-    # 获取当前日期
-    CURRENT_DATE=$(date +%Y-%m-%d)
-    
-    # 获取当前版本
-    CURRENT_VERSION=$(node -p "require('./package.json').version")
-    
-    # 计算新版本
-    IFS='.' read -ra VERSION <<< "$CURRENT_VERSION"
-    case "$RELEASE_TYPE" in
-        major)
-            NEW_VERSION="$((VERSION[0]+1)).0.0"
-            ;;
-        minor)
-            NEW_VERSION="${VERSION[0]}.$((VERSION[1]+1)).0"
-            ;;
-        patch)
-            NEW_VERSION="${VERSION[0]}.${VERSION[1]}.$((VERSION[2]+1))"
-            ;;
-    esac
-    
-    echo "📋 新版本: $NEW_VERSION"
-    
-    # 分析所有修改的文件
-    MODIFIED_FILES=$(git diff --name-only)
-    echo "📁 修改的文件: $MODIFIED_FILES"
-    
-    # 生成 commit message
-    COMMIT_MESSAGE="chore(release): prepare release $NEW_VERSION"
-    
-    # 添加所有更改并提交
-    git add .
-    git commit -m "$COMMIT_MESSAGE"
-    
-    echo "✅ 已自动提交更改"
-    echo ""
+    echo "📋 当前修改的文件:"
+    git status --short
+    exit 1
 fi
 
 # 获取当前版本
