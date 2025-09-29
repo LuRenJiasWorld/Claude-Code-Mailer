@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.3] - 2025-09-29
+
+### Added
+- Implemented automated GitHub Actions release workflow
+- Added tag-release.sh script for simplified version management
+- Created comprehensive release documentation and guides
+- Automated GitHub Release creation with changelog extraction
+
+### Changed
+- Replaced manual release process with automated CI/CD pipeline
+- Streamlined version management and tag creation
+- Enhanced release reliability with automated testing and validation
+
+### Fixed
+- Improved release process consistency and reduced manual errors
+- Added automated version verification and validation steps
+
 ## [1.3.2] - 2025-09-29
 
 ### Fixed
