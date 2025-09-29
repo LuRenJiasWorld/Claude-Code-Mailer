@@ -13,7 +13,11 @@ content:
     {{/if}}工作目錄: {{cwd}} 
     會話ID: {{sessionId}} 
     
-    請打開 Claude Code 終端查看詳情。 
+    請打開 Claude Code 終端查看詳情。
+    
+    ---
+    <small>此郵件由 Claude Code Mailer 發送 - 讓您隨時掌握 Claude Code 動態的智能郵件通知系統 🚀<br>
+    項目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
   
   Stop: |
     現在時間是 {{timestamp}} 
@@ -24,7 +28,11 @@ content:
     {{/if}}工作目錄: {{cwd}} 
     會話ID: {{sessionId}} 
     
-    請查看終端了解詳情。 
+    請查看終端了解詳情。
+    
+    ---
+    <small>此郵件由 Claude Code Mailer 發送 - 讓您隨時掌握 Claude Code 動態的智能郵件通知系統 🚀<br>
+    項目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
   
   SubagentStop: |
     現在時間是 {{timestamp}} 
@@ -35,7 +43,11 @@ content:
     {{/if}}工作目錄: {{cwd}} 
     會話ID: {{sessionId}} 
     
-    請查看終端了解詳情。 
+    請查看終端了解詳情。
+    
+    ---
+    <small>此郵件由 Claude Code Mailer 發送 - 讓您隨時掌握 Claude Code 動態的智能郵件通知系統 🚀<br>
+    項目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
 
 defaults:
   subject: "通知"

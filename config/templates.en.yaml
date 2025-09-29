@@ -13,7 +13,11 @@ content:
     {{/if}}Working directory: {{cwd}} 
     Session ID: {{sessionId}} 
     
-    Please open Claude Code terminal for details. 
+    Please open Claude Code terminal for details.
+    
+    ---
+    <small>This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀<br>
+    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
   
   Stop: |
     Current time is {{timestamp}} 
@@ -24,7 +28,11 @@ content:
     {{/if}}Working directory: {{cwd}} 
     Session ID: {{sessionId}} 
     
-    Please check terminal for details. 
+    Please check terminal for details.
+    
+    ---
+    <small>This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀<br>
+    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
   
   SubagentStop: |
     Current time is {{timestamp}} 
@@ -35,7 +43,11 @@ content:
     {{/if}}Working directory: {{cwd}} 
     Session ID: {{sessionId}} 
     
-    Please check terminal for details. 
+    Please check terminal for details.
+    
+    ---
+    <small>This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀<br>
+    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
 
 defaults:
   subject: "Notification"
