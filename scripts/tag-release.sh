@@ -55,7 +55,7 @@ esac
 echo "📋 新版本: $NEW_VERSION"
 
 # 更新 package.json 版本
-npm version "$NEW_VERSION" --no-git-tag-version
+pnpm version "$NEW_VERSION" --no-git-tag-version
 
 # 提交版本更新
 git add package.json
