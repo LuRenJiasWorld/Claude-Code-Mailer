@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2025-09-29
+
+### Changed
+- Simplified getPackageDir() function to use __dirname directly instead of complex path resolution
+- Removed unnecessary glob dependency and complex package location detection logic
+- Improved code maintainability and performance by eliminating file system checks
+
+### Fixed
+- Enhanced reliability of package directory detection across different installation scenarios
+- Streamlined path resolution for both local development and global installations
+
 ## [1.3.0] - 2025-09-29
 
 ### Fixed

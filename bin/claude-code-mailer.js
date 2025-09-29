@@ -10,37 +10,8 @@ const ClaudeMailer = require('../src/index');
 
 // Get the installation directory of this package
 function getPackageDir() {
-  // If installed globally, use the global npm directory
-  const globalNodeModules = path.join(os.homedir(), '.nvm/versions/node/*/lib/node_modules');
-  const globalPrefix = process.env.PREFIX || '/usr/local';
-  
-  // Try to find the package in various locations
-  const possiblePaths = [
-    path.join(__dirname, '..'), // Local development
-    path.join(globalPrefix, 'lib', 'node_modules', 'claude-code-mailer'), // Global npm
-    path.join(os.homedir(), '.nvm', 'versions', 'node', '*', 'lib', 'node_modules', 'claude-code-mailer'), // nvm global
-    process.cwd() // Current working directory
-  ];
-  
-  for (const dirPath of possiblePaths) {
-    // Handle glob patterns
-    if (dirPath.includes('*')) {
-      const glob = require('glob');
-      try {
-        const matches = glob.sync(dirPath);
-        if (matches.length > 0) {
-          return matches[0];
-        }
-      } catch (error) {
-        // glob not available, continue
-      }
-    } else if (fs.existsSync(path.join(dirPath, 'package.json')) && 
-               require(path.join(dirPath, 'package.json')).name === 'claude-code-mailer') {
-      return dirPath;
-    }
-  }
-  
-  // Fallback to script directory
+  // __dirname always points to the directory containing the current script
+  // The package root is always one level up from the bin/ directory
   return path.join(__dirname, '..');
 }
 
