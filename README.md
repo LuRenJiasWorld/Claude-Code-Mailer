@@ -10,6 +10,9 @@ Get started in seconds with global installation:
 # Install globally from npm
 npm install -g claude-code-mailer
 
+# First run will create config file - edit it with your settings
+claude-code-mailer test
+
 # Install Claude Code hooks
 claude-code-mailer install
 
@@ -18,6 +21,66 @@ claude-code-mailer test
 ```
 
 That's it! You're ready to receive email notifications from Claude Code.
+
+## Configuration
+
+Claude Mailer supports flexible configuration with automatic config file creation.
+
+### Config File Locations
+
+The tool automatically looks for configuration files in this order:
+
+1. **Environment Variables** (highest priority)
+2. **Project-level `.env`** file (in project root)
+3. **Global Config File** `~/.claude-mailer/.env` (created automatically)
+4. **Default Values** (lowest priority)
+
+### First Run Setup
+
+When you first run Claude Mailer, it will:
+
+1. Create a global config file at `~/.claude-mailer/.env`
+2. Ask you to edit it with your email settings
+3. Provide a template with all necessary configuration options
+
+### Configuration Options
+
+```env
+# SMTP Configuration
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your-email@example.com
+SMTP_PASS=your-password
+
+# Email Settings
+FROM_EMAIL=your-email@example.com
+TO_EMAIL=recipient@example.com
+SUBJECT_PREFIX=[Claude Code]
+
+# Template Language (zh-CN, zh-HK, en)
+TEMPLATE_LANGUAGE=zh-CN
+
+# Retry Settings
+RETRY_ATTEMPTS=3
+RETRY_DELAY=1000
+TIMEOUT=10000
+```
+
+### Project-specific Configuration
+
+For project-specific settings, create a `.env` file in your project root:
+
+```bash
+# Navigate to your project
+cd /path/to/your/project
+
+# Create project-specific .env file
+echo "TO_EMAIL=project-specific@example.com" > .env
+echo "TEMPLATE_LANGUAGE=en" >> .env
+```
+
+Project-level configs override global settings but are overridden by environment variables.
 
 ## Features
 

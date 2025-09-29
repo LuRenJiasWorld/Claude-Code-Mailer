@@ -10,6 +10,9 @@ Claude Code 的独立邮件通知服务，使用 Nodemailer 发送邮件。
 # 从 npm 全局安装
 npm install -g claude-code-mailer
 
+# 首次运行会创建配置文件 - 请编辑您的设置
+claude-code-mailer test
+
 # 安装 Claude Code hooks
 claude-code-mailer install
 
@@ -18,6 +21,66 @@ claude-code-mailer test
 ```
 
 就这么简单！您已经准备好接收来自 Claude Code 的邮件通知了。
+
+## 配置
+
+Claude Mailer 支持灵活的配置方式，并自动创建配置文件。
+
+### 配置文件位置
+
+工具会按以下优先级顺序查找配置文件：
+
+1. **环境变量**（最高优先级）
+2. **项目级 `.env`** 文件（在项目根目录）
+3. **全局配置文件** `~/.claude-mailer/.env`（自动创建）
+4. **默认值**（最低优先级）
+
+### 首次运行设置
+
+当您第一次运行 Claude Mailer 时，它会：
+
+1. 在 `~/.claude-mailer/.env` 创建全局配置文件
+2. 提示您编辑邮件设置
+3. 提供包含所有必要配置选项的模板
+
+### 配置选项
+
+```env
+# SMTP 配置
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your-email@example.com
+SMTP_PASS=your-password
+
+# 邮件设置
+FROM_EMAIL=your-email@example.com
+TO_EMAIL=recipient@example.com
+SUBJECT_PREFIX=[Claude Code]
+
+# 模板语言 (zh-CN, zh-HK, en)
+TEMPLATE_LANGUAGE=zh-CN
+
+# 重试设置
+RETRY_ATTEMPTS=3
+RETRY_DELAY=1000
+TIMEOUT=10000
+```
+
+### 项目特定配置
+
+如需项目特定设置，在项目根目录创建 `.env` 文件：
+
+```bash
+# 进入您的项目
+cd /path/to/your/project
+
+# 创建项目特定的 .env 文件
+echo "TO_EMAIL=project-specific@example.com" > .env
+echo "TEMPLATE_LANGUAGE=en" >> .env
+```
+
+项目级配置会覆盖全局设置，但会被环境变量覆盖。
 
 ## 功能特性
 
