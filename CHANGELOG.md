@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3] - 2025-09-29
+
+### Fixed
+- Replace hardcoded CLI version with dynamic version reading from package.json
+- Add getVersion() function to both CLI files for proper version display
+- Ensure version command shows correct current version instead of fixed 1.0.0
+- Include fallback version handling for error cases
+- Fix version display for both local and global installations
+
 ## [1.2.2] - 2025-09-29
 
 ### Fixed
