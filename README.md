@@ -2,6 +2,23 @@
 
 A standalone email notification service for Claude Code, built with Node.js and Nodemailer.
 
+## Quick Start
+
+Get started in seconds with global installation:
+
+```bash
+# Install globally from npm
+npm install -g claude-code-mailer
+
+# Install Claude Code hooks
+claude-code-mailer install
+
+# Send a test email
+claude-code-mailer test
+```
+
+That's it! You're ready to receive email notifications from Claude Code.
+
 ## Features
 
 - 🚀 Standalone Node.js project dedicated to email sending
