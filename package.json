@@ -1,6 +1,6 @@
 {
   "name": "claude-code-mailer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Smart email notifications for Claude Code with automatic hooks installation and multilingual templates",
   "main": "src/index.js",
   "bin": {
@@ -27,6 +27,10 @@
   ],
   "author": "Claude Code",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisfxliu/claude-mailer.git"
+  },
   "dependencies": {
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",
