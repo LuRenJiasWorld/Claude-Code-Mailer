@@ -30,7 +30,7 @@ class ClaudeMailerCLI {
     this.program
       .command('send')
       .description('发送邮件通知')
-      .option('-e, --event <type>', '事件类型 (Notification|Stop|SubagentStop|Error|Warning|Info)', 'Notification')
+      .option('-e, --event <type>', '事件类型 (Notification|Stop|SubagentStop)', 'Notification')
       .option('-s, --session <id>', '会话ID', 'unknown')
       .option('-t, --to <email>', '收件人邮箱')
       .option('-f, --from <email>', '发件人邮箱')
@@ -201,7 +201,7 @@ class ClaudeMailerCLI {
   async handleTestCommand(options) {
     const mailer = new ClaudeMailer();
     
-    const result = await mailer.sendNotification('Info', { sessionId: 'test-session' }, {
+    const result = await mailer.sendNotification('Notification', { sessionId: 'test-session' }, {
       subject: 'Claude Code Mailer 测试邮件',
       message: '这是一封来自 Claude Code Mailer 的测试邮件。',
       details: '如果您收到这封邮件，说明邮件发送功能正常工作。'

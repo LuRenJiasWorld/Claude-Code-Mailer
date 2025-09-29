@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2025-09-29
+
+### Fixed
+- Cleaned up all remaining invalid hook type references from CLI commands and installation scripts
+- Fixed test command to use valid 'Notification' event type instead of invalid 'Info' type
+- Removed invalid Error, Warning, and Info hook types from all CLI help text and options
+- Ensured installation script only displays and installs valid Claude Code hook types
+
+### Changed
+- Streamlined hook type validation across all CLI interfaces
+- Improved user experience by removing confusing invalid hook type options
+- Enhanced consistency between installation script output and actual supported hooks
+
 ## [1.2.4] - 2025-09-29
 
 ### Fixed
