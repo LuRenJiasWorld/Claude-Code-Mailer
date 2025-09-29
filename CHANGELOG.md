@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2] - 2025-09-29
+
+### Fixed
+- Fixed duplicate hooks installation issue by simplifying hook detection logic
+- Improved hasClaudeMailerHook() function to use generic 'claude-code-mailer' string matching
+- Prevented multiple identical hook arrays from being created during repeated installations
+- Enhanced installation reliability across different command path formats
+
+### Changed
+- Streamlined hook detection to work with both full and relative command paths
+- Improved user experience by eliminating duplicate hook entries in Claude settings
+
 ## [1.3.1] - 2025-09-29
 
 ### Changed

@@ -106,7 +106,7 @@ function hasClaudeMailerHook(settings, eventType) {
       for (const hook of hookGroup.hooks) {
         if (hook.type === 'command' && 
             hook.command && 
-            hook.command.includes('claude-code-mailer send --stdin')) {
+            hook.command.includes('claude-code-mailer')) {
           return true;
         }
       }
