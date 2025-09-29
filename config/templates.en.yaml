@@ -16,8 +16,8 @@ content:
     Please open Claude Code terminal for details.
     
     ---
-    <small>This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀<br>
-    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
+    This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀
+    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
   
   Stop: |
     Current time is {{timestamp}} 
@@ -31,8 +31,8 @@ content:
     Please check terminal for details.
     
     ---
-    <small>This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀<br>
-    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
+    This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀
+    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
   
   SubagentStop: |
     Current time is {{timestamp}} 
@@ -46,8 +46,8 @@ content:
     Please check terminal for details.
     
     ---
-    <small>This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀<br>
-    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
+    This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀
+    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
 
 defaults:
   subject: "Notification"

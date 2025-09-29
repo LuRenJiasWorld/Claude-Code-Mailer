@@ -16,8 +16,8 @@ content:
     请打开 Claude Code 终端查看详情。
     
     ---
-    <small>此邮件由 Claude Code Mailer 发送 - 让您随时掌握 Claude Code 动态的智能邮件通知系统 🚀<br>
-    项目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
+    此邮件由 Claude Code Mailer 发送 - 让您随时掌握 Claude Code 动态的智能邮件通知系统 🚀
+    项目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
   
   Stop: |
     现在时间是 {{timestamp}} 
@@ -31,8 +31,8 @@ content:
     请查看终端了解详情。
     
     ---
-    <small>此邮件由 Claude Code Mailer 发送 - 让您随时掌握 Claude Code 动态的智能邮件通知系统 🚀<br>
-    项目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
+    此邮件由 Claude Code Mailer 发送 - 让您随时掌握 Claude Code 动态的智能邮件通知系统 🚀
+    项目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
   
   SubagentStop: |
     现在时间是 {{timestamp}} 
@@ -46,8 +46,8 @@ content:
     请查看终端了解详情。
     
     ---
-    <small>此邮件由 Claude Code Mailer 发送 - 让您随时掌握 Claude Code 动态的智能邮件通知系统 🚀<br>
-    项目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer</small> 
+    此邮件由 Claude Code Mailer 发送 - 让您随时掌握 Claude Code 动态的智能邮件通知系统 🚀
+    项目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
 
 defaults:
   subject: "通知"
