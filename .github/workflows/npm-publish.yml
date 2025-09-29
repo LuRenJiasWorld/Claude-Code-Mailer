@@ -29,6 +29,9 @@ jobs:
       with:
         version: 8
         run_install: false
+
+    - name: Install pnpm
+      run: npm install -g pnpm
     
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
@@ -63,6 +66,9 @@ jobs:
       with:
         version: 8
         run_install: false
+
+    - name: Install pnpm
+      run: npm install -g pnpm
     
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
