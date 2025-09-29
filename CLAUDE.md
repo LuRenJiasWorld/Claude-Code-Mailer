@@ -173,3 +173,55 @@ docs(readme): update quick start guide
 - 每个版本按类型分组修改内容
 - 包含链接到对应的版本号
 - 新版本发布时必须更新
+
+## 日期标准
+
+### 文档日期规范
+项目中的所有日期必须遵循以下标准：
+
+### 日期格式要求
+- **使用 ISO 8601 格式**: `YYYY-MM-DD`
+- **参考来源**: 以当前日期和 Git 提交记录中的日期为准
+- **时区**: 使用 UTC+8 (北京时间) 作为项目标准时区
+
+### 具体应用场景
+
+#### CHANGELOG.md
+- 版本发布日期使用 Git 提交的日期
+- 格式: `## [1.2.1] - 2025-09-29`
+- 日期来源: `git log --oneline --format="%ad" --date=short`
+
+#### 文档更新
+- README.md 和 README.zh.md 中的更新日期使用当前日期
+- 许可证年份使用当前年份
+- 示例: `Copyright (c) 2025 Claude Code Mailer`
+
+#### Commit Message 日期
+- Git 自动管理提交日期
+- 格式: `Mon Sep 29 20:57:42 2025 +0800`
+- 不需要手动在 commit message 中包含日期
+
+### 日期检查清单
+- [ ] CHANGELOG.md 中的版本日期与 Git 提交日期一致
+- [ ] LICENSE 文件中的版权年份为当前年份
+- [ ] 文档更新日期使用正确的 ISO 格式
+- [ ] 所有日期引用使用项目标准时区 (UTC+8)
+
+### 自动化日期管理
+项目鼓励使用脚本自动化日期管理：
+```bash
+# 获取当前日期 (ISO 8601 格式)
+date +%Y-%m-%d
+
+# 获取 Git 提交日期
+git log --oneline --format="%ad" --date=short | head -1
+
+# 获取当前年份
+date +%Y
+```
+
+### 日期一致性验证
+在发布新版本前，验证所有日期的一致性：
+- CHANGELOG.md 版本日期与 Git 历史匹配
+- 版权年份为当前年份
+- 文档更新日期合理且一致
