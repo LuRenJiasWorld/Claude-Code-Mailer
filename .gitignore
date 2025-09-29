@@ -96,3 +96,6 @@ Thumbs.db
 # Claude specific
 .claude/
 claude-mailer.log
+
+# NPM publish script (local use only)
+publish-npm.sh
