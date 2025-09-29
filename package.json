@@ -11,7 +11,11 @@
     "dev": "node --watch src/index.js",
     "test": "node test/test.js",
     "build": "echo 'No build step required'",
-    "lint": "echo 'No linting configured'"
+    "lint": "echo 'No linting configured'",
+    "release": "node scripts/release.js",
+    "release:patch": "npm run release patch",
+    "release:minor": "npm run release minor",
+    "release:major": "npm run release major"
   },
   "keywords": [
     "claude",
