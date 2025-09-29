@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4] - 2025-09-29
+
+### Fixed
+- Fixed invalid Claude Code hook types in installation script and templates
+- Removed Error, Warning, and Info hook types which are not valid Claude Code hooks
+- Updated installation script to only use valid hook types: Notification, Stop, SubagentStop
+- Updated all language templates (zh-CN, zh-HK, en) to remove invalid hook type entries
+- Fixed mailer.js fallback template and error handling to match valid hook types
+- Added documentation comment listing all valid Claude Code hook types
+
 ## [1.2.3] - 2025-09-29
 
 ### Fixed

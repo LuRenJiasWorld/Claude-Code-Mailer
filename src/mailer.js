@@ -127,10 +127,12 @@ class Mailer {
                 subjects: {
                     Notification: "Your attention needed",
                     Stop: "Task completed",
-                    Error: "Error encountered"
+                    SubagentStop: "Subtask completed"
                 },
                 content: {
-                    Notification: "Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease open Claude Code terminal for details."
+                    Notification: "Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease open Claude Code terminal for details.",
+                    Stop: "Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease check terminal for details.",
+                    SubagentStop: "Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease check terminal for details."
                 },
                 defaults: {
                     subject: 'Notification',
@@ -184,9 +186,7 @@ class Mailer {
             timestamp,
             message: additionalInfo.message || '',
             cwd: additionalInfo.cwd || sessionInfo.cwd || '未知',
-            sessionId: sessionInfo.sessionId || 'unknown',
-            error: additionalInfo.error || '未知错误',
-            warning: additionalInfo.warning || '未知警告'
+            sessionId: sessionInfo.sessionId || 'unknown'
         };
         
         const template = this.templates.content[eventType];

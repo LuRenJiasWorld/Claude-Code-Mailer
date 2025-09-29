@@ -5,6 +5,7 @@ const path = require('path');
 const os = require('os');
 
 // Claude Code Mailer hooks configuration
+// Valid Claude Code hook types: Notification, Stop, SubagentStop, PreToolUse, PostToolUse, UserPromptSubmit, SessionStart, SessionEnd, PreCompact
 const CLAUDE_MAILER_HOOKS = {
   Notification: {
     hooks: [
@@ -23,30 +24,6 @@ const CLAUDE_MAILER_HOOKS = {
     ]
   },
   SubagentStop: {
-    hooks: [
-      {
-        type: "command",
-        command: "node /data/dev/claude-mailer/bin/cli.js send --stdin"
-      }
-    ]
-  },
-  Error: {
-    hooks: [
-      {
-        type: "command",
-        command: "node /data/dev/claude-mailer/bin/cli.js send --stdin"
-      }
-    ]
-  },
-  Warning: {
-    hooks: [
-      {
-        type: "command",
-        command: "node /data/dev/claude-mailer/bin/cli.js send --stdin"
-      }
-    ]
-  },
-  Info: {
     hooks: [
       {
         type: "command",
@@ -212,7 +189,7 @@ function updateCommandPaths(settings, claudeMailerDir) {
 function showCurrentConfig(settings) {
   console.log('\n📋 Current Claude Code Mailer Configuration:\n');
   
-  const events = ['Notification', 'Stop', 'SubagentStop', 'Error', 'Warning', 'Info'];
+  const events = ['Notification', 'Stop', 'SubagentStop'];
   let hasAnyHooks = false;
   
   for (const eventType of events) {

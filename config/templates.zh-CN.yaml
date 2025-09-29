@@ -2,9 +2,6 @@ subjects:
   Notification: "需要你的注意"
   Stop: "任务完成了"
   SubagentStop: "子任务完成了"
-  Error: "遇到错误了"
-  Warning: "有个提醒"
-  Info: "信息通知"
 
 content:
   Notification: |
@@ -30,41 +27,6 @@ content:
     请查看终端了解详情。 
   
   SubagentStop: |
-    现在时间是 {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}工作目录: {{cwd}} 
-    会话ID: {{sessionId}} 
-    
-    请查看终端了解详情。 
-  
-  Error: |
-    现在时间是 {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}工作目录: {{cwd}} 
-    会话ID: {{sessionId}} 
-    错误信息: {{error}} 
-    
-    请查看终端了解详情。 
-  
-  Warning: |
-    现在时间是 {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}工作目录: {{cwd}} 
-    会话ID: {{sessionId}} 
-    警告信息: {{warning}} 
-    
-    请查看终端了解详情。 
-  
-  Info: |
     现在时间是 {{timestamp}} 
     
     {{#if message}}
