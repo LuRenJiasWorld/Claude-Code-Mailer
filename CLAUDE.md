@@ -106,6 +106,44 @@ ls config/templates.*.yaml
 ## 版本管理和提交规范
 
 ### 版本发布流程
+
+本项目使用 `tag-release.sh` 脚本进行版本发布，发布流程完全自动化：
+
+#### 发布方法
+```bash
+# 发布补丁版本 (1.0.0 -> 1.0.1)
+./scripts/tag-release.sh patch
+
+# 发布次版本 (1.0.0 -> 1.1.0)  
+./scripts/tag-release.sh minor
+
+# 发布主版本 (1.0.0 -> 2.0.0)
+./scripts/tag-release.sh major
+```
+
+#### 发布流程
+1. **版本管理** - 自动更新 package.json 版本号
+2. **Git 操作** - 自动提交更改并创建 Git tag
+3. **推送远程** - 推送代码和 tag 到远程仓库
+4. **自动发布** - GitHub Actions 自动发布到 npm
+5. **Release 创建** - GitHub Actions 自动创建 GitHub Release
+
+#### 脚本功能
+- 自动检测当前分支（必须在 main 分支）
+- 检查工作目录状态（必须干净）
+- 自动生成 Git tag message
+- 推送后自动触发 GitHub Actions 发布流程
+
+#### 替代方案（手动发布）
+如果需要手动发布，可以使用以下命令：
+```bash
+# 更新版本
+pnpm version patch/minor/major
+
+# 推送代码和 tag
+git push origin main
+git push origin v1.x.x
+```
 每次发布新版本时，必须：
 
 1. **更新 CHANGELOG.md**
