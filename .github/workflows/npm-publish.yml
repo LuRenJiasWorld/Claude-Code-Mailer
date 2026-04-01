@@ -10,65 +10,75 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [18.x, 20.x, 22.x]
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+
     - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Install pnpm
-      run: npm install -g pnpm@10
-    
     - name: Install dependencies
-      run: pnpm install --frozen-lockfile
+      run: bun install
+
+    - name: Type check
+      run: bun run typecheck
+
+    - name: Build
+      run: bun run build
+
+    - name: Test
+      run: bun test
 
   publish:
     needs: test
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    
+
     permissions:
       contents: read
       id-token: write
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
         registry-url: 'https://registry.npmjs.org'
-    
-    - name: Install pnpm
-      run: npm install -g pnpm@10
-    
+
     - name: Install dependencies
-      run: pnpm install --frozen-lockfile
-    
+      run: bun install
+
     - name: Get version from tag
       id: get-version
       run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-    
+
     - name: Verify version matches package.json
       run: |
         PACKAGE_VERSION=$(node -p "require('./package.json').version")
         if [ "$PACKAGE_VERSION" != "${{ steps.get-version.outputs.version }}" ]; then
-          echo "❌ Tag version ${{ steps.get-version.outputs.version }} does not match package.json version $PACKAGE_VERSION"
+          echo "Tag version ${{ steps.get-version.outputs.version }} does not match package.json version $PACKAGE_VERSION"
           exit 1
         fi
-        echo "✅ Version verification passed: $PACKAGE_VERSION"
-    
+        echo "Version verification passed: $PACKAGE_VERSION"
+
+    - name: Build
+      run: bun run build
+
     - name: Publish to NPM
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: |
-        echo "📦 Publishing claude-code-mailer@${{ steps.get-version.outputs.version }} to NPM"
-        pnpm publish --no-git-checks
+      run: npm publish --access public
