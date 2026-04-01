@@ -54,7 +54,7 @@ function writeClaudeSettings(settings: ClaudeSettings): void {
 }
 
 function isMailerHook(command: string): boolean {
-  return command.includes('claude-code-mailer send --stdin') ||
+  return /claude-code-mailer(@[^\s]*)?\s+send\s+--stdin/.test(command) ||
          command.includes('claude-code-mailer/bin/cli.js send --stdin')
 }
 
