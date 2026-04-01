@@ -2,16 +2,16 @@
   "name": "claude-code-mailer",
   "version": "1.4.6",
   "description": "Claude Code Mailer - Smart email notifications for Claude Code with automatic hooks installation and multilingual templates",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "claude-code-mailer": "bin/claude-code-mailer.js"
+    "claude-code-mailer": "dist/cli/index.js"
   },
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "node --watch src/index.js",
-    "test": "node test/test.js",
-    "build": "echo 'No build step required'",
-    "lint": "echo 'No linting configured'"
+    "build": "bun run build.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "prepublishOnly": "bun run typecheck && bun run build && bun test"
   },
   "keywords": [
     "claude",
@@ -38,14 +38,16 @@
     "nodemailer": "^6.9.15"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.0.0",
+    "@types/nodemailer": "^6.4.17",
+    "typescript": "^5.6.0"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "files": [
-    "src/",
-    "bin/",
+    "dist/",
     "config/",
     "README.md",
     "README.zh.md",
