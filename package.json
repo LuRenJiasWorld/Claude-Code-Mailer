@@ -1,6 +1,6 @@
 {
   "name": "claude-code-mailer",
-  "version": "2.0.5",
+  "version": "2.1.0",
   "description": "Claude Code Mailer - Smart email notifications for Claude Code with automatic hooks installation and multilingual templates",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,13 +25,14 @@
     "multilingual",
     "cli"
   ],
-  "author": "Claude Code",
+  "author": "Benjamin Chris",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LuRenJiasWorld/Claude-Code-Mailer.git"
   },
   "dependencies": {
+    "@clack/prompts": "^1.2.0",
     "commander": "^12.1.0",
     "dotenv": "^16.4.5",
     "js-yaml": "^4.1.0",
@@ -39,7 +40,7 @@
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^22.0.0",
+    "@types/node": "^25.5.0",
     "@types/nodemailer": "^6.4.17",
     "typescript": "^5.6.0"
   },

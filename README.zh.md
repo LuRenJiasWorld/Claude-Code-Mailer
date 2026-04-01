@@ -1,575 +1,116 @@
 # Claude Code Mailer
 
-Claude Code 的独立邮件通知服务，使用 Nodemailer 发送邮件。
+为 [Claude Code](https://claude.ai/code) 提供智能邮件通知。让 Claude 在需要你注意、完成任务或子任务结束时自动发邮件给你，不再需要盯着终端等待。
 
 ## 快速开始
 
-几秒钟即可开始使用全局安装：
+一条命令搞定。
 
 ```bash
-# 从 npm 全局安装
-npm install -g claude-code-mailer
-
-# 首次运行会创建配置文件 - 请编辑您的设置
-claude-code-mailer test
-
-# 安装 Claude Code hooks
-claude-code-mailer install
-
-# 发送测试邮件
-claude-code-mailer test
+npx claude-code-mailer install
 ```
 
-就这么简单！您已经准备好接收来自 Claude Code 的邮件通知了。
+交互式向导会引导你完成：
 
-## 配置
+1. 选择邮件服务商（Gmail、163邮箱、QQ邮箱，或自定义 SMTP）
+2. 填写 SMTP 账号信息
+3. 发送一封测试邮件，你确认收到
+4. 配置保存到 `~/.claude-code-mailer/.env`
+5. 自动将 hooks 写入 `~/.claude/settings.json`
 
-Claude Code Mailer 支持灵活的配置方式，并自动创建配置文件。
+完成后，Claude Code 每次触发 `Stop`、`SubagentStop`、`Notification` 事件时都会给你发邮件。
 
-### 配置文件位置
+## 运行环境要求
 
-工具会按以下优先级顺序查找配置文件：
+- Node.js ≥ 18
+- 一个可用的 SMTP 邮箱账户
 
-1. **环境变量**（最高优先级）
-2. **项目级 `.env`** 文件（在项目根目录）
-3. **全局配置文件** `~/.claude-code-mailer/.env`（自动创建）
-4. **默认值**（最低优先级）
+> **QQ邮箱用户：** 需要在邮箱设置中开启 SMTP 服务，并使用授权码（而非登录密码）。
+> **Gmail 用户：** 需要生成 [应用专用密码](https://myaccount.google.com/apppasswords)，不能直接使用 Google 账户密码。
 
-### 首次运行设置
+## 命令列表
 
-当您第一次运行 Claude Code Mailer 时，它会：
+| 命令 | 说明 |
+|------|------|
+| `npx claude-code-mailer install` | 交互式初始化向导（首次配置） |
+| `npx claude-code-mailer uninstall` | 从 Claude Code 配置中移除 hooks |
+| `npx claude-code-mailer verify` | 测试 SMTP 连接并显示当前配置 |
+| `npx claude-code-mailer test` | 用当前配置发送一封测试邮件 |
+| `npx claude-code-mailer send --stdin` | 从 hook 触发发送通知（内部使用） |
+| `npx claude-code-mailer config` | 打印当前解析后的配置 |
+| `npx claude-code-mailer custom` | 发送一封自定义邮件 |
 
-1. 在 `~/.claude-code-mailer/.env` 创建全局配置文件
-2. 提示您编辑邮件设置
-3. 提供包含所有必要配置选项的模板
+## 配置文件
 
-### 配置选项
+配置保存在 `~/.claude-code-mailer/.env`，可以随时手动编辑：
 
 ```env
-# SMTP 配置
-SMTP_HOST=smtp.example.com
+SMTP_HOST=smtp.qq.com
 SMTP_PORT=587
 SMTP_SECURE=false
-SMTP_USER=your-email@example.com
-SMTP_PASS=your-password
+SMTP_USER=your@qq.com
+SMTP_PASS=your-authorization-code
 
-# 邮件设置
-FROM_EMAIL=your-email@example.com
-TO_EMAIL=recipient@example.com
+FROM_EMAIL=your@qq.com
+TO_EMAIL=your@qq.com
 SUBJECT_PREFIX=[Claude Code]
 
-# 模板语言 (zh-CN, zh-HK, en)
+# 邮件模板语言：zh-CN | zh-HK | en
 TEMPLATE_LANGUAGE=zh-CN
 
-# 重试设置
 RETRY_ATTEMPTS=3
 RETRY_DELAY=1000
 TIMEOUT=10000
+
+# 使用自签名证书的 SMTP 服务器需设置为 false
+TLS_REJECT_UNAUTHORIZED=true
 ```
 
-### 项目特定配置
+### 配置优先级
 
-如需项目特定设置，在项目根目录创建 `.env` 文件：
+环境变量 → 项目目录下的 `.env` → `~/.claude-code-mailer/.env`
 
-```bash
-# 进入您的项目
-cd /path/to/your/project
+## 手动配置 Hooks
 
-# 创建项目特定的 .env 文件
-echo "TO_EMAIL=project-specific@example.com" > .env
-echo "TEMPLATE_LANGUAGE=en" >> .env
-```
-
-项目级配置会覆盖全局设置，但会被环境变量覆盖。
-
-## 功能特性
-
-- 🚀 独立的 Node.js 项目，专门用于邮件发送
-- 📧 使用 Nodemailer 发送邮件
-- 🔄 支持重试机制
-- 📝 详细的日志记录
-- 🔧 灵活的配置选项
-- 🎯 CLI 工具，便于集成
-- 📋 YAML 模板系统，支持变量替换和条件渲染
-- 🏷️ 邮件标题自动包含工作目录名称
-- ⏰ 时间戳格式化（时分格式）
-- 💬 Markdown 引用格式支持
-
-## 安装依赖
-
-### 本地开发
-
-```bash
-cd /data/dev/claude-code-mailer
-pnpm install
-```
-
-### 全局安装
-
-用于全局使用 `claude-code-mailer` 命令：
-
-```bash
-# 克隆仓库
-git clone <repository-url>
-cd claude-code-mailer
-
-# 安装依赖
-pnpm install
-
-# 全局安装
-npm install -g .
-```
-
-全局安装后，您可以在任何地方使用 CLI：
-
-```bash
-claude-code-mailer install    # 安装 Claude Code hooks
-claude-code-mailer send       # 发送邮件通知
-claude-code-mailer test       # 发送测试邮件
-claude-code-mailer verify     # 验证 SMTP 连接
-claude-code-mailer uninstall  # 移除 Claude Code hooks
-```
-
-## 配置
-
-### 环境变量
-
-复制 `.env.example` 到 `.env`：
-
-```bash
-cp .env.example .env
-```
-
-编辑 `.env` 文件：
-
-```env
-# SMTP Configuration
-SMTP_HOST=smtp.ym.163.com
-SMTP_PORT=994
-SMTP_SECURE=true
-SMTP_USER=claude@lurenjia.in
-SMTP_PASS=6F87X1ZIBh
-
-# Email Settings
-FROM_EMAIL=claude@lurenjia.in
-TO_EMAIL=2036961035@qq.com
-SUBJECT_PREFIX=[Claude Code]
-
-# Retry Settings
-RETRY_ATTEMPTS=3
-RETRY_DELAY=1000
-TIMEOUT=10000
-```
-
-### 多语言邮件模板配置
-
-在 `.env` 文件中设置语言：
-
-```env
-TEMPLATE_LANGUAGE=zh-CN  # 支持: zh-CN, zh-HK, en
-```
-
-每种语言都有独立的模板文件：
-
-- `config/templates.zh-CN.yaml` - 简体中文模板
-- `config/templates.zh-HK.yaml` - 繁体中文模板  
-- `config/templates.en.yaml` - 英文模板
-
-**模板文件结构：**
-
-```yaml
-# config/templates.zh-CN.yaml
-subjects:
-  Notification: "需要你的注意"
-  Stop: "任务完成了"
-  Error: "遇到错误了"
-
-content:
-  Notification: |
-    现在时间是 {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}工作目录: {{cwd}} 
-    会话ID: {{sessionId}} 
-    
-    请打开 Claude Code 终端查看详情。 
-
-defaults:
-  subject: "通知"
-  message: ""
-
-# config/templates.zh-HK.yaml
-subjects:
-  Notification: "需要你的注意"
-  Stop: "任務完成了"
-
-content:
-  Notification: |
-    現在時間是 {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}工作目錄: {{cwd}} 
-    會話ID: {{sessionId}} 
-    
-    請打開 Claude Code 終端查看詳情。 
-
-# config/templates.en.yaml
-subjects:
-  Notification: "Your attention needed"
-  Stop: "Task completed"
-
-content:
-  Notification: |
-    Current time is {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}Working directory: {{cwd}} 
-    Session ID: {{sessionId}} 
-    
-    Please open Claude Code terminal for details. 
-```
-
-**支持的语言：**
-- `zh-CN` - 简体中文（默认）
-- `zh-HK` - 繁体中文（香港）
-- `en` - English
-
-**模板变量：**
-- `{{timestamp}}` - 当前时间（时分格式）
-- `{{message}}` - 消息内容（用 Markdown 引用格式包裹）
-- `{{cwd}}` - 工作目录
-- `{{sessionId}}` - 会话ID
-- `{{error}}` - 错误信息
-- `{{warning}}` - 警告信息
-
-**条件渲染：**
-- `{{#if variable}}content{{/if}}` - 只有当变量存在时才显示内容
-
-## 使用方法
-
-### CLI 命令
-
-CLI 可以通过两种方式使用：
-
-#### 全局使用（在 `npm install -g .` 之后）
-```bash
-# 验证 SMTP 连接
-claude-code-mailer verify
-
-# 发送测试邮件
-claude-code-mailer test
-
-# 发送通知邮件
-claude-code-mailer send --event Notification --session test-session
-
-# 发送自定义邮件
-claude-code-mailer custom --subject "测试邮件" --message "这是一封测试邮件"
-
-# 显示配置
-claude-code-mailer config
-
-# 安装/卸载 Claude Code hooks
-claude-code-mailer install
-claude-code-mailer uninstall
-```
-
-#### 本地开发使用
-```bash
-# 验证 SMTP 连接
-node bin/claude-code-mailer.js verify
-
-# 发送测试邮件
-node bin/claude-code-mailer.js test
-
-# 发送通知邮件
-# 从标准输入读取 JSON
-echo '{"hook_event_name":"Notification","session_id":"test-session"}' | node bin/claude-code-mailer.js send --stdin
-
-# 使用命令行参数
-node bin/claude-code-mailer.js send --event Notification --session test-session
-
-# 发送自定义邮件
-node bin/claude-code-mailer.js custom --subject "测试邮件" --message "这是一封测试邮件"
-
-# 显示配置
-node bin/claude-code-mailer.js config
-
-# 安装/卸载 Claude Code hooks
-node bin/claude-code-mailer.js install
-node bin/claude-code-mailer.js uninstall
-```
-
-### 编程接口
-
-```javascript
-const ClaudeMailer = require('./src/index');
-
-const mailer = new ClaudeMailer();
-
-// 发送通知
-await mailer.sendNotification('Notification', { sessionId: 'test-session' });
-
-// 发送自定义邮件
-await mailer.sendCustomEmail({
-  subject: '自定义邮件',
-  text: '邮件内容'
-});
-
-// 验证连接
-await mailer.verifyConnection();
-```
-
-### 可用命令
-
-`claude-code-mailer` CLI 支持以下命令：
-
-| 命令 | 描述 |
-|------|------|
-| `send` | 发送邮件通知（默认命令） |
-| `install` | 自动安装 Claude Code hooks |
-| `uninstall` | 卸载 Claude Code hooks |
-| `test` | 发送测试邮件 |
-| `verify` | 验证 SMTP 连接 |
-| `config` | 显示当前配置 |
-| `custom` | 发送自定义邮件 |
-| `help` | 显示帮助信息 |
-
-### 全局安装优势
-
-全局安装（`npm install -g .`）后，Claude Code Mailer 提供：
-
-- **系统级访问**: 在任何目录使用 `claude-code-mailer`
-- **自动路径检测**: 智能查找安装位置
-- **统一 CLI**: 单一入口点处理所有功能
-- **向后兼容**: 保留所有现有功能
-- **简单集成**: 简化的 Claude Code hooks 安装和管理
-
-## Claude Code 集成
-
-### 自动安装
-
-使用自动安装脚本来配置 Claude Code hooks：
-
-```bash
-node bin/install-claude.js
-```
-
-这个脚本将：
-- 🎯 自动检测 Claude Code Mailer 安装目录
-- 🔧 将 Claude Code Mailer hooks 添加到 `~/.claude/settings.json`
-- 🛡️ 保留现有配置
-- 🚫 防止重复安装
-- 📊 显示安装摘要
-
-### 手动配置
-
-如果您喜欢手动配置，请在 `~/.claude/settings.json` 中添加以下内容：
+如果你想手动配置，在 `~/.claude/settings.json` 中添加：
 
 ```json
 {
   "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "Error": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "Warning": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "Info": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ]
+    "Notification": [{ "hooks": [{ "type": "command", "command": "npx -y claude-code-mailer send --stdin" }] }],
+    "Stop":         [{ "hooks": [{ "type": "command", "command": "npx -y claude-code-mailer send --stdin" }] }],
+    "SubagentStop": [{ "hooks": [{ "type": "command", "command": "npx -y claude-code-mailer send --stdin" }] }]
   }
 }
 ```
 
-### 支持的事件
+## 邮件模板
 
-- `Notification` - Claude 需要您的输入或权限
-- `Stop` - Claude 完成任务
-- `SubagentStop` - Claude 子任务完成
-- `Error` - Claude 遇到错误
-- `Warning` - Claude 发出警告
-- `Info` - Claude 信息通知
+模板为 YAML 格式，随包内置，支持三种语言：
 
-### Claude Code 提供的变量
+| 文件 | 语言 |
+|------|------|
+| `templates.zh-CN.yaml` | 简体中文（默认） |
+| `templates.zh-HK.yaml` | 繁体中文 |
+| `templates.en.yaml` | 英文 |
 
-- `{{sessionId}}` - 当前会话ID
-- `{{cwd}}` - 当前工作目录
-- `{{message}}` - 通知消息内容
-- `{{transcript_path}}` - 会话记录文件路径
+**模板变量：** `{{timestamp}}`、`{{message}}`、`{{cwd}}`、`{{sessionId}}`
+**条件块：** `{{#if message}}…{{/if}}`
 
-### 邮件格式特性
+## 故障排查
 
-- 邮件标题自动包含工作目录的最后一级文件夹名
-- 时间戳只显示时分格式（如：19:39）
-- 消息内容使用 Markdown 引用格式（> message）
-- 每行文本末尾添加空格，防止邮件客户端粘行
+**SMTP 连接失败**
+运行 `npx claude-code-mailer verify` 查看详细错误。常见原因：端口填错、密码不对、未启用 SMTP 服务或未使用授权码。
 
-## 日志
+**邮件没收到**
+先查垃圾邮件。可运行 `npx claude-code-mailer test` 手动触发发送确认。
 
-日志文件位置：
-- 普通日志：`~/.claude-code-mailer/mailer.log`
-- 错误日志：`~/.claude-code-mailer/error.log`
+**配置目录找不到**
+这是旧版本的已知问题，升级到最新版即可：`npx claude-code-mailer@latest install`。
 
-## 项目结构
-
-```
-claude-code-mailer/
-├── src/
-│   ├── index.js          # 主要入口
-│   ├── mailer.js         # 邮件发送核心
-│   ├── config-loader.js  # 配置加载器
-│   └── logger.js         # 日志记录器
-├── bin/
-│   ├── cli.js            # CLI 工具
-│   └── install-claude.js # Claude Code hooks 安装器
-├── config/
-│   ├── templates.zh-CN.yaml  # 简体中文模板
-│   ├── templates.zh-HK.yaml  # 繁体中文模板
-│   └── templates.en.yaml      # 英文模板
-├── .env                  # 环境变量配置
-├── package.json
-├── pnpm-lock.yaml
-└── README.md
-```
-
-## 开发和维护
-
-### 添加新的邮件模板
-
-1. 编辑对应语言的模板文件（如 `config/templates.zh-CN.yaml`）
-2. 在 `subjects` 中添加新的主题
-3. 在 `content` 中添加对应的内容模板
-4. 使用 `{{variable}}` 语法引用变量
-5. 使用 `{{#if variable}}content{{/if}}` 进行条件渲染
-
-### 添加新语言支持
-
-1. 在 `config/` 目录下创建新的模板文件（如 `templates.ja.yaml`）
-2. 复制现有模板结构并翻译内容
-3. 在 `.env.template` 中添加新语言选项说明
-
-### 使用自动安装脚本
-
-项目提供了 `bin/install-claude.js` 脚本，可以自动将 Claude Code Mailer hooks 安装到 Claude Code 配置中：
-
-- **智能检测**: 自动检测 Claude Code Mailer 安装目录
-- **安全安装**: 保留现有配置，不会覆盖其他 hooks
-- **防重复**: 自动检测已安装的 hooks，避免重复安装
-- **支持卸载**: 可以一键卸载所有 Claude Code Mailer hooks
-
-使用方法：
-```bash
-# 安装 hooks
-node bin/install-claude.js
-
-# 卸载 hooks
-node bin/install-claude.js --uninstall
-
-# 查看帮助
-node bin/install-claude.js --help
-```
-
-### 配置管理
-
-- 所有配置都通过环境变量管理（.env 文件）
-- 不再使用 JSON 配置文件
-- 模板系统使用 YAML 格式，便于维护
-
-### 邮件格式优化
-
-- 时间戳：只显示时分格式，提高可读性
-- 工作目录：自动提取最后一级文件夹名到邮件标题
-- 消息格式：使用 Markdown 引用格式，突出显示
-- 行间距：每行末尾添加空格，防止邮件客户端粘行
-- 多语言支持：支持简体中文、繁体中文（香港）、英文三种语言模板
-- 独立语言文件：每种语言都有独立的模板文件，便于维护和扩展
-
-## 开发
-
-### 运行开发模式
-```bash
-pnpm dev
-```
-
-### 运行测试
-```bash
-pnpm test
-```
-
-## 故障排除
-
-### SMTP 连接失败
-1. 检查 SMTP 服务器配置
-2. 验证用户名和密码
-3. 检查网络连接
-4. 查看错误日志
-
-### 邮件发送失败
-1. 验证收件人邮箱地址
-2. 检查邮件内容格式
-3. 查看 `~/.claude-code-mailer/error.log` 日志
-
-### 权限问题
-1. 确保脚本有执行权限：`chmod +x bin/cli.js`
-2. 确保日志目录有写入权限
+**Hooks 安装后没有触发**
+在 Claude Code 中打开 `/hooks` 菜单，重新加载配置后生效。
 
 ## 许可证
 
-本项目采用 MIT 许可证 - 详情请查看 [LICENSE](LICENSE) 文件。
+MIT

@@ -1,527 +1,116 @@
 # Claude Code Mailer
 
-A standalone email notification service for Claude Code, built with Node.js and Nodemailer.
+Smart email notifications for [Claude Code](https://claude.ai/code). Get notified when Claude needs your attention, finishes a task, or a subtask completes — without staring at the terminal.
 
 ## Quick Start
 
-Get started in seconds with global installation:
+One command. That's it.
 
 ```bash
-# Install globally from npm
-npm install -g claude-code-mailer
-
-# First run will create config file - edit it with your settings
-claude-code-mailer test
-
-# Install Claude Code hooks
-claude-code-mailer install
-
-# Send a test email
-claude-code-mailer test
+npx claude-code-mailer install
 ```
 
-That's it! You're ready to receive email notifications from Claude Code.
+The interactive wizard will:
 
-## Configuration
+1. Ask you to pick an email provider (Gmail, 163, QQ Mail, or custom SMTP)
+2. Collect your SMTP credentials
+3. Send a test email — you confirm receipt
+4. Save config to `~/.claude-code-mailer/.env`
+5. Install hooks into `~/.claude/settings.json` automatically
 
-Claude Code Mailer supports flexible configuration with automatic config file creation.
+After that, Claude Code will email you on every `Stop`, `SubagentStop`, and `Notification` event.
 
-### Config File Locations
+## Requirements
 
-The tool automatically looks for configuration files in this order:
+- Node.js ≥ 18
+- An SMTP account (Gmail, QQ Mail, corporate mail, etc.)
 
-1. **Environment Variables** (highest priority)
-2. **Project-level `.env`** file (in project root)
-3. **Global Config File** `~/.claude-code-mailer/.env` (created automatically)
-4. **Default Values** (lowest priority)
+> **Gmail users:** You need an [App Password](https://myaccount.google.com/apppasswords), not your regular password.
+> **QQ Mail users:** Enable SMTP in settings and use the authorization code as your password.
 
-### First Run Setup
-
-When you first run Claude Code Mailer, it will:
-
-1. Create a global config file at `~/.claude-code-mailer/.env`
-2. Ask you to edit it with your email settings
-3. Provide a template with all necessary configuration options
-
-### Configuration Options
-
-```env
-# SMTP Configuration
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your-email@example.com
-SMTP_PASS=your-password
-
-# Email Settings
-FROM_EMAIL=your-email@example.com
-TO_EMAIL=recipient@example.com
-SUBJECT_PREFIX=[Claude Code]
-
-# Template Language (zh-CN, zh-HK, en)
-TEMPLATE_LANGUAGE=zh-CN
-
-# Retry Settings
-RETRY_ATTEMPTS=3
-RETRY_DELAY=1000
-TIMEOUT=10000
-```
-
-### Project-specific Configuration
-
-For project-specific settings, create a `.env` file in your project root:
-
-```bash
-# Navigate to your project
-cd /path/to/your/project
-
-# Create project-specific .env file
-echo "TO_EMAIL=project-specific@example.com" > .env
-echo "TEMPLATE_LANGUAGE=en" >> .env
-```
-
-Project-level configs override global settings but are overridden by environment variables.
-
-## Features
-
-- 🚀 Standalone Node.js project dedicated to email sending
-- 📧 Email sending via Nodemailer with SMTP support
-- 🔄 Retry mechanism for failed emails
-- 📝 Detailed logging and debugging
-- 🔧 Flexible configuration options
-- 🎯 CLI tool for easy integration
-- 📋 YAML template system with variable substitution and conditional rendering
-- 🏷️ Email subjects automatically include working directory name
-- ⏰ Timestamp formatting (HH:MM format)
-- 💬 Markdown quote format support
-- 🌍 Multilingual template support (Simplified Chinese, Traditional Chinese, English)
-
-## Installation
-
-### Local Development
-
-```bash
-cd /data/dev/claude-code-mailer
-pnpm install
-```
-
-### Global Installation
-
-For global usage with the `claude-code-mailer` command:
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd claude-code-mailer
-
-# Install dependencies
-pnpm install
-
-# Install globally
-npm install -g .
-```
-
-After global installation, you can use the CLI from anywhere:
-
-```bash
-claude-code-mailer install    # Install Claude Code hooks
-claude-code-mailer send       # Send email notification
-claude-code-mailer test       # Send test email
-claude-code-mailer verify     # Verify SMTP connection
-claude-code-mailer uninstall  # Remove Claude Code hooks
-```
-
-## Configuration
-
-### Environment Variables
-
-Copy `.env.template` to `.env`:
-
-```bash
-cp .env.template .env
-```
-
-Edit `.env` file:
-
-```env
-# SMTP Configuration
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_SECURE=false
-SMTP_USER=your-email@example.com
-SMTP_PASS=your-password
-
-# Email Settings
-FROM_EMAIL=your-email@example.com
-TO_EMAIL=recipient@example.com
-SUBJECT_PREFIX=[Claude Code]
-
-# Template Language (zh-CN, zh-HK, en)
-TEMPLATE_LANGUAGE=zh-CN
-
-# Retry Settings
-RETRY_ATTEMPTS=3
-RETRY_DELAY=1000
-TIMEOUT=10000
-```
-
-### Multilingual Email Templates
-
-Set language in `.env` file:
-
-```env
-TEMPLATE_LANGUAGE=zh-CN  # Supports: zh-CN, zh-HK, en
-```
-
-Each language has its own template file:
-
-- `config/templates.zh-CN.yaml` - Simplified Chinese templates
-- `config/templates.zh-HK.yaml` - Traditional Chinese templates  
-- `config/templates.en.yaml` - English templates
-
-**Template file structure:**
-
-```yaml
-# config/templates.en.yaml
-subjects:
-  Notification: "Your attention needed"
-  Stop: "Task completed"
-  Error: "Error encountered"
-
-content:
-  Notification: |
-    Current time is {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}Working directory: {{cwd}} 
-    Session ID: {{sessionId}} 
-    
-    Please open Claude Code terminal for details. 
-
-defaults:
-  subject: "Notification"
-  message: ""
-```
-
-**Supported languages:**
-- `zh-CN` - Simplified Chinese (default)
-- `zh-HK` - Traditional Chinese (Hong Kong)
-- `en` - English
-
-**Template variables:**
-- `{{timestamp}}` - Current time (HH:MM format)
-- `{{message}}` - Message content (wrapped in Markdown quote format)
-- `{{cwd}}` - Working directory
-- `{{sessionId}}` - Session ID
-- `{{error}}` - Error message
-- `{{warning}}` - Warning message
-
-**Conditional rendering:**
-- `{{#if variable}}content{{/if}}` - Only show content if variable exists
-
-## Usage
-
-### CLI Commands
-
-The CLI can be used in two ways:
-
-#### Global Usage (after `npm install -g .`)
-```bash
-# Verify SMTP connection
-claude-code-mailer verify
-
-# Send test email
-claude-code-mailer test
-
-# Send notification email
-claude-code-mailer send --event Notification --session test-session
-
-# Send custom email
-claude-code-mailer custom --subject "Test Email" --message "This is a test email"
-
-# Show configuration
-claude-code-mailer config
-
-# Install/Uninstall Claude Code hooks
-claude-code-mailer install
-claude-code-mailer uninstall
-```
-
-#### Local Development Usage
-```bash
-# Verify SMTP connection
-node bin/claude-code-mailer.js verify
-
-# Send test email
-node bin/claude-code-mailer.js test
-
-# Send notification email
-# Read JSON from stdin
-echo '{"hook_event_name":"Notification","session_id":"test-session"}' | node bin/claude-code-mailer.js send --stdin
-
-# Use command line arguments
-node bin/claude-code-mailer.js send --event Notification --session test-session
-
-# Send custom email
-node bin/claude-code-mailer.js custom --subject "Test Email" --message "This is a test email"
-
-# Show configuration
-node bin/claude-code-mailer.js config
-
-# Install/Uninstall Claude Code hooks
-node bin/claude-code-mailer.js install
-node bin/claude-code-mailer.js uninstall
-```
-
-### Programming Interface
-
-```javascript
-const ClaudeMailer = require('./src/index');
-
-const mailer = new ClaudeMailer();
-
-// Send notification
-await mailer.sendNotification('Notification', { sessionId: 'test-session' });
-
-// Send custom email
-await mailer.sendCustomEmail({
-  subject: 'Custom Email',
-  text: 'Email content'
-});
-
-// Verify connection
-await mailer.verifyConnection();
-```
-
-### Available Commands
-
-The `claude-code-mailer` CLI supports the following commands:
+## Commands
 
 | Command | Description |
 |---------|-------------|
-| `send` | Send email notification (default command) |
-| `install` | Install Claude Code hooks automatically |
-| `uninstall` | Uninstall Claude Code hooks |
-| `test` | Send test email |
-| `verify` | Verify SMTP connection |
-| `config` | Show current configuration |
-| `custom` | Send custom email |
-| `help` | Show help information |
+| `npx claude-code-mailer install` | Interactive setup wizard (first-time setup) |
+| `npx claude-code-mailer uninstall` | Remove hooks from Claude Code settings |
+| `npx claude-code-mailer verify` | Test SMTP connection and show config |
+| `npx claude-code-mailer test` | Send a test email with current config |
+| `npx claude-code-mailer send --stdin` | Send notification from hook (used internally) |
+| `npx claude-code-mailer config` | Print current resolved configuration |
+| `npx claude-code-mailer custom` | Send a one-off custom email |
 
-### Global Installation Benefits
+## Configuration
 
-When installed globally (`npm install -g .`), Claude Code Mailer provides:
+Config lives at `~/.claude-code-mailer/.env`. You can edit it directly at any time:
 
-- **System-wide access**: Use `claude-code-mailer` from any directory
-- **Automatic path detection**: Intelligently finds installation location
-- **Unified CLI**: Single entry point for all functionality
-- **Backward compatibility**: All existing functionality preserved
-- **Easy integration**: Simple Claude Code hooks installation and management
+```env
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=you@gmail.com
+SMTP_PASS=your-app-password
 
-## Claude Code Integration
+FROM_EMAIL=you@gmail.com
+TO_EMAIL=you@gmail.com
+SUBJECT_PREFIX=[Claude Code]
 
-### Automatic Installation
+# Template language: zh-CN | zh-HK | en
+TEMPLATE_LANGUAGE=zh-CN
 
-Use the automatic installation script to configure Claude Code hooks:
+RETRY_ATTEMPTS=3
+RETRY_DELAY=1000
+TIMEOUT=10000
 
-```bash
-node bin/install-claude.js
+# Set to false if your SMTP server uses a self-signed certificate
+TLS_REJECT_UNAUTHORIZED=true
 ```
 
-This script will:
-- 🎯 Automatically detect Claude Code Mailer installation directory
-- 🔧 Add Claude Code Mailer hooks to `~/.claude/settings.json`
-- 🛡️ Preserve existing configuration
-- 🚫 Prevent duplicate installations
-- 📊 Show installation summary
+### Priority order
 
-### Manual Configuration
+Environment variables → project `.env` → `~/.claude-code-mailer/.env`
 
-If you prefer manual configuration, add the following to `~/.claude/settings.json`:
+## Manual Hook Configuration
+
+If you prefer to configure hooks manually, add to `~/.claude/settings.json`:
 
 ```json
 {
   "hooks": {
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "SubagentStop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "Error": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "Warning": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ],
-    "Info": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node /data/dev/claude-code-mailer/bin/cli.js send --stdin"
-          }
-        ]
-      }
-    ]
+    "Notification": [{ "hooks": [{ "type": "command", "command": "npx -y claude-code-mailer send --stdin" }] }],
+    "Stop":         [{ "hooks": [{ "type": "command", "command": "npx -y claude-code-mailer send --stdin" }] }],
+    "SubagentStop": [{ "hooks": [{ "type": "command", "command": "npx -y claude-code-mailer send --stdin" }] }]
   }
 }
 ```
 
-### Supported Events
+## Email Templates
 
-- `Notification` - Claude needs your input or permission
-- `Stop` - Claude completed task
-- `SubagentStop` - Claude subtask completed
-- `Error` - Claude encountered error
-- `Warning` - Claude issued warning
-- `Info` - Claude information notification
+Templates are YAML files bundled with the package. Three languages are included:
 
-### Claude Code Provided Variables
+| File | Language |
+|------|----------|
+| `templates.zh-CN.yaml` | Simplified Chinese (default) |
+| `templates.zh-HK.yaml` | Traditional Chinese |
+| `templates.en.yaml` | English |
 
-- `{{sessionId}}` - Current session ID
-- `{{cwd}}` - Current working directory
-- `{{message}}` - Notification message content
-- `{{transcript_path}}` - Session transcript file path
-
-### Email Format Features
-
-- Email subjects automatically include the last folder name from working directory
-- Timestamp shows only hours and minutes (e.g., 19:39)
-- Message content uses Markdown quote format (> message)
-- Space added at end of each line to prevent email clients from joining lines
-
-## Logs
-
-Log file locations:
-- Regular logs: `~/.claude-code-mailer/mailer.log`
-- Error logs: `~/.claude-code-mailer/error.log`
-
-## Project Structure
-
-```
-claude-code-mailer/
-├── src/
-│   ├── index.js          # Main entry point
-│   ├── mailer.js         # Email sending core
-│   ├── config-loader.js  # Configuration loader
-│   └── logger.js         # Logger
-├── bin/
-│   ├── cli.js            # CLI tool
-│   └── install-claude.js # Claude Code hooks installer
-├── config/
-│   ├── templates.zh-CN.yaml  # Simplified Chinese templates
-│   ├── templates.zh-HK.yaml  # Traditional Chinese templates
-│   └── templates.en.yaml      # English templates
-├── .env                  # Environment variables
-├── .env.template         # Environment template
-├── package.json
-├── pnpm-lock.yaml
-├── .gitignore
-├── README.md             # This file
-└── README.zh.md          # Chinese documentation
-```
-
-## Development and Maintenance
-
-### Adding new email templates
-
-1. Edit the corresponding language template file (e.g., `config/templates.zh-CN.yaml`)
-2. Add new subjects in `subjects` section
-3. Add corresponding content templates in `content` section
-4. Use `{{variable}}` syntax to reference variables
-5. Use `{{#if variable}}content{{/if}}` for conditional rendering
-
-### Adding new language support
-
-1. Create new template file in `config/` directory (e.g., `templates.ja.yaml`)
-2. Copy existing template structure and translate content
-3. Add new language option description in `.env.template`
-
-### Configuration Management
-
-- All configuration managed through environment variables (.env file)
-- No JSON configuration files used
-- Template system uses YAML format for maintainability
-
-### Email Format Optimizations
-
-- Timestamp: Shows only hours and minutes for better readability
-- Working directory: Automatically extracts last folder name to email subject
-- Message format: Uses Markdown quote format for emphasis
-- Line spacing: Space added at end of each line to prevent email client line joining
-- Multilingual support: Supports Simplified Chinese, Traditional Chinese (Hong Kong), and English templates
-- Independent language files: Each language has separate template files for easy maintenance and extension
-
-## Development
-
-### Run development mode
-```bash
-pnpm dev
-```
-
-### Run tests
-```bash
-pnpm test
-```
+**Template variables:** `{{timestamp}}`, `{{message}}`, `{{cwd}}`, `{{sessionId}}`
+**Conditional blocks:** `{{#if message}}…{{/if}}`
 
 ## Troubleshooting
 
-### SMTP Connection Failed
-1. Check SMTP server configuration
-2. Verify username and password
-3. Check network connection
-4. View error logs
+**SMTP connection failed**
+Run `npx claude-code-mailer verify` to see the exact error. Common causes: wrong port, wrong password, or app password not enabled.
 
-### Email Sending Failed
-1. Verify recipient email address
-2. Check email content format
-3. View `~/.claude-code-mailer/error.log` logs
+**Email not arriving**
+Check spam. Run `npx claude-code-mailer test` to trigger a send manually.
 
-### Permission Issues
-1. Ensure script has execute permission: `chmod +x bin/cli.js`
-2. Ensure log directory has write permission
+**Config directory not found after npx**
+This is a known issue with some old versions. Update to the latest: `npx claude-code-mailer@latest install`.
+
+**Hooks not firing**
+Open `/hooks` in Claude Code to reload settings after installation.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT
