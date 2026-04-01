@@ -14,14 +14,19 @@ import type {
 } from './types'
 
 function resolveConfigDir(): string {
-  let dir = __dirname
-  while (dir !== path.parse(dir).root) {
-    if (fs.existsSync(path.join(dir, 'config', 'templates.en.yaml'))) {
-      return path.join(dir, 'config')
+  try {
+    const pkgName = 'claude-code-mailer'
+    const pkgJsonPath = require.resolve(pkgName + '/package.json')
+    return path.join(path.dirname(pkgJsonPath), 'config')
+  } catch {
+    let dir = process.argv[1] ? path.dirname(process.argv[1]) : process.cwd()
+    for (let i = 0; i < 8; i++) {
+      const candidate = path.join(dir, 'config', 'templates.en.yaml')
+      if (fs.existsSync(candidate)) return path.join(dir, 'config')
+      dir = path.dirname(dir)
     }
-    dir = path.dirname(dir)
+    throw new Error('Cannot locate config directory. This is a packaging error.')
   }
-  throw new Error('Cannot locate config directory. This is a packaging error.')
 }
 
 export class Mailer {

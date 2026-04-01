@@ -1,6 +1,6 @@
 {
   "name": "claude-code-mailer",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Claude Code Mailer - Smart email notifications for Claude Code with automatic hooks installation and multilingual templates",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
