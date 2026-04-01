@@ -57,6 +57,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
+        registry-url: 'https://registry.npmjs.org'
 
     - name: Install dependencies
       run: bun install
@@ -77,5 +78,14 @@ jobs:
     - name: Build
       run: bun run build
 
+    - name: Get npm OIDC token
+      id: npm-oidc
+      run: |
+        TOKEN=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+          "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=npm" | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])")
+        echo "token=$TOKEN" >> $GITHUB_OUTPUT
+
     - name: Publish to NPM
+      env:
+        NODE_AUTH_TOKEN: ${{ steps.npm-oidc.outputs.token }}
       run: npm publish --access public --provenance
