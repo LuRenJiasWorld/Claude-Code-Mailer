@@ -230,59 +230,83 @@ async function runSetupWizard(): Promise<void> {
   })
   if (p.isCancel(language)) { p.cancel('Cancelled.'); process.exit(0) }
 
-  p.log.step('Step 3/3  Test & Save')
+  p.log.step('Step 3/3  Review, Test & Save')
+
+  const maskedPass = (smtpPass as string).slice(0, 2) + '•'.repeat(Math.max(4, (smtpPass as string).length - 2))
+  p.note(
+    [
+      `SMTP Host     ${smtpHost as string}:${smtpPort}  (${smtpSecure ? 'SSL/TLS' : 'STARTTLS'})`,
+      `SMTP User     ${smtpUser as string}`,
+      `SMTP Password ${maskedPass}`,
+      ``,
+      `From          ${fromEmail as string}`,
+      `To            ${toEmail as string}`,
+      `Language      ${language as string}`,
+    ].join('\n'),
+    'Configuration Summary'
+  )
+
+  const proceed = await p.confirm({
+    message: 'Looks good? Send a test email to confirm delivery.',
+    initialValue: true,
+  })
+  if (p.isCancel(proceed) || !proceed) {
+    p.cancel('Cancelled. Nothing was saved.')
+    process.exit(0)
+  }
+
+  const testConfig: MailerConfig = {
+    smtp: {
+      host: smtpHost as string,
+      port: smtpPort,
+      secure: smtpSecure,
+      auth: { user: smtpUser as string, pass: smtpPass as string },
+      rejectUnauthorized: true,
+    },
+    from: fromEmail as string,
+    to: toEmail as string,
+    subjectPrefix: '[Claude Code]',
+    language: language as TemplateLanguage,
+    retryAttempts: 1,
+    retryDelay: 1000,
+    timeout: 15000,
+  }
 
   const s = p.spinner()
-  s.start('Connecting to SMTP server and sending test email…')
+  s.start(`Sending test email to ${toEmail as string}…`)
 
   let testPassed = false
   try {
-    const testConfig: MailerConfig = {
-      smtp: {
-        host: smtpHost as string,
-        port: smtpPort,
-        secure: smtpSecure,
-        auth: { user: smtpUser as string, pass: smtpPass as string },
-        rejectUnauthorized: true,
-      },
-      from: fromEmail as string,
-      to: toEmail as string,
-      subjectPrefix: '[Claude Code]',
-      language: language as TemplateLanguage,
-      retryAttempts: 1,
-      retryDelay: 1000,
-      timeout: 15000,
-    }
-
     const mailer = new Mailer(testConfig)
     const result = await mailer.sendNotification('Stop', { sessionId: 'setup-test' }, {
       message: 'Setup test — if you received this email, Claude Code Mailer is working!',
     })
 
     if (result.success) {
-      s.stop('Test email sent successfully.')
+      s.stop('Test email sent.')
       testPassed = true
     } else {
-      s.stop('Send failed.')
+      s.stop('Send failed (no error thrown).')
     }
   } catch (err) {
-    s.stop(`Connection failed: ${(err as Error).message}`)
+    s.stop(`Failed: ${(err as Error).message}`)
   }
 
   if (!testPassed) {
-    const retry = await p.confirm({ message: 'Save config anyway and continue?', initialValue: false })
-    if (p.isCancel(retry) || !retry) {
-      p.cancel('Setup cancelled. Please check your SMTP settings and try again.')
+    p.log.error('Could not send the test email. Please double-check your SMTP settings.')
+    const saveAnyway = await p.confirm({ message: 'Save config anyway and continue?', initialValue: false })
+    if (p.isCancel(saveAnyway) || !saveAnyway) {
+      p.cancel('Setup cancelled. Nothing was saved.')
       process.exit(1)
     }
   } else {
-    const confirmed = await p.confirm({
-      message: `Did you receive the test email at ${toEmail}?`,
+    const received = await p.confirm({
+      message: `Did the test email arrive at ${toEmail as string}?`,
       initialValue: true,
     })
-    if (p.isCancel(confirmed)) { p.cancel('Cancelled.'); process.exit(0) }
-    if (!confirmed) {
-      p.log.warn('Check your spam folder. Config saved but hooks will be installed — you can re-run anytime.')
+    if (p.isCancel(received)) { p.cancel('Cancelled.'); process.exit(0) }
+    if (!received) {
+      p.log.warn("Not received yet? It may take a moment — also check your spam folder.\nConfig will be saved and hooks installed. Re-run 'install' anytime to reconfigure.")
     }
   }
 
