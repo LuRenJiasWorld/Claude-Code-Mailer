@@ -1,9 +1,56 @@
 import type { Command } from 'commander'
+import fs from 'fs'
 import { ClaudeMailer } from '../../index'
 import { ConfigMissingError } from '../../types'
 import { formatSetupGuide } from '../setup'
 import { cleanupDeprecatedHooks } from '../settings'
 import type { HookEventType, HookPayload } from '../../types'
+
+// 从 transcript 文件中提取最后一条 assistant 消息
+function getLastAssistantMessageFromTranscript(transcriptPath: string): string | null {
+  try {
+    if (!fs.existsSync(transcriptPath)) {
+      return null
+    }
+
+    const content = fs.readFileSync(transcriptPath, 'utf8')
+    const lines = content.trim().split('\n')
+
+    // 从后往前找最后一条 assistant 消息
+    for (let i = lines.length - 1; i >= 0; i--) {
+      try {
+        const entry = JSON.parse(lines[i])
+        if (entry.type === 'assistant' && entry.message?.content) {
+          // 提取文本内容
+          const contentArray = entry.message.content
+          let textContent = ''
+
+          for (const item of contentArray) {
+            if (item.type === 'text') {
+              textContent += item.text
+            } else if (item.type === 'tool_use') {
+              textContent += `[使用工具: ${item.name}]\n`
+            }
+          }
+
+          // 限制长度，避免邮件过长
+          const maxLength = 5000
+          if (textContent.length > maxLength) {
+            textContent = textContent.slice(0, maxLength) + '\n...(内容已截断)'
+          }
+
+          return textContent
+        }
+      } catch (e) {
+        continue
+      }
+    }
+
+    return null
+  } catch (e) {
+    return null
+  }
+}
 
 export function registerSendCommand(program: Command): void {
   program
@@ -46,13 +93,19 @@ export function registerSendCommand(program: Command): void {
             sessionId: data.session_id ?? data.sessionId ?? options.session
           }
 
+          // 获取最后一条 assistant 消息
+          let lastAssistantMessage = data.last_assistant_message
+          if (!lastAssistantMessage && data.transcript_path) {
+            lastAssistantMessage = getLastAssistantMessageFromTranscript(data.transcript_path) ?? undefined
+          }
+
           const additionalInfo = {
             ...(data.additional_info ?? {}),
             ...(data.additionalInfo ?? {}),
             message: data.message,
             cwd: data.cwd,
             transcript_path: data.transcript_path,
-            last_assistant_message: data.last_assistant_message
+            last_assistant_message: lastAssistantMessage
           }
 
           const rawEventType = data.hook_event_name ?? data.event ?? options.event
