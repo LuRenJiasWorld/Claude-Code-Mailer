@@ -62,6 +62,7 @@ export interface HookPayload {
   additional_info?: Record<string, unknown>
   additionalInfo?: Record<string, unknown>
   event?: string
+  last_assistant_message?: string
 }
 
 export interface TemplateData {

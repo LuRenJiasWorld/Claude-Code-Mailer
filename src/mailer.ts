@@ -129,7 +129,7 @@ export class Mailer {
         },
         content: {
           Notification: 'Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease open Claude Code terminal for details.',
-          Stop: 'Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease check terminal for details.'
+          Stop: 'Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\n{{#if last_assistant_message}}─────────────────────────────────────\nLast Assistant Message:\n\n{{last_assistant_message}}\n─────────────────────────────────────\n\n{{/if}}Please check terminal for details.'
         },
         defaults: {
           subject: 'Notification',

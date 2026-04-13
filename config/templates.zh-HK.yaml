@@ -27,6 +27,14 @@ content:
     {{/if}}工作目錄: {{cwd}}
     會話ID: {{sessionId}}
 
+    {{#if last_assistant_message}}
+    ─────────────────────────────────────
+    Claude 的最後回覆:
+
+    {{last_assistant_message}}
+    ─────────────────────────────────────
+    {{/if}}
+
     請查看終端了解詳情。
 
     ---

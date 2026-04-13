@@ -51,7 +51,8 @@ export function registerSendCommand(program: Command): void {
             ...(data.additionalInfo ?? {}),
             message: data.message,
             cwd: data.cwd,
-            transcript_path: data.transcript_path
+            transcript_path: data.transcript_path,
+            last_assistant_message: data.last_assistant_message
           }
 
           const rawEventType = data.hook_event_name ?? data.event ?? options.event

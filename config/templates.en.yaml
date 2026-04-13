@@ -27,6 +27,14 @@ content:
     {{/if}}Working directory: {{cwd}}
     Session ID: {{sessionId}}
 
+    {{#if last_assistant_message}}
+    ─────────────────────────────────────
+    Last Assistant Message:
+
+    {{last_assistant_message}}
+    ─────────────────────────────────────
+    {{/if}}
+
     Please check terminal for details.
 
     ---

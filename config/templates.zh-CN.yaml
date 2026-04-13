@@ -27,6 +27,14 @@ content:
     {{/if}}工作目录: {{cwd}}
     会话ID: {{sessionId}}
 
+    {{#if last_assistant_message}}
+    ─────────────────────────────────────
+    Claude 的最后回复:
+
+    {{last_assistant_message}}
+    ─────────────────────────────────────
+    {{/if}}
+
     请查看终端了解详情。
 
     ---
