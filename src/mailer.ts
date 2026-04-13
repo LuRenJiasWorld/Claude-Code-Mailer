@@ -125,13 +125,11 @@ export class Mailer {
       return {
         subjects: {
           Notification: 'Your attention needed',
-          Stop: 'Task completed',
-          SubagentStop: 'Subtask completed'
+          Stop: 'Task completed'
         },
         content: {
           Notification: 'Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease open Claude Code terminal for details.',
-          Stop: 'Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease check terminal for details.',
-          SubagentStop: 'Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease check terminal for details.'
+          Stop: 'Current time is {{timestamp}}\n\n{{#if message}}> {{message}}\n\n{{/if}}Working directory: {{cwd}}\nSession ID: {{sessionId}}\n\nPlease check terminal for details.'
         },
         defaults: {
           subject: 'Notification',

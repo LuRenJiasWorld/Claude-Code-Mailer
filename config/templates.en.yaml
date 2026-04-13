@@ -1,7 +1,6 @@
 subjects:
   Notification: "Your attention needed"
   Stop: "Task completed"
-  SubagentStop: "Subtask completed"
 
 content:
   Notification: |
@@ -20,34 +19,19 @@ content:
     Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
   
   Stop: |
-    Current time is {{timestamp}} 
-    
+    Current time is {{timestamp}}
+
     {{#if message}}
-    > {{message}} 
-    
-    {{/if}}Working directory: {{cwd}} 
-    Session ID: {{sessionId}} 
-    
+    > {{message}}
+
+    {{/if}}Working directory: {{cwd}}
+    Session ID: {{sessionId}}
+
     Please check terminal for details.
-    
+
     ---
     This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀
-    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
-  
-  SubagentStop: |
-    Current time is {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}Working directory: {{cwd}} 
-    Session ID: {{sessionId}} 
-    
-    Please check terminal for details.
-    
-    ---
-    This email is sent by Claude Code Mailer - The intelligent email notification system that keeps you connected to your AI assistant. 🚀
-    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
+    Project: https://github.com/LuRenJiasWorld/Claude-Code-Mailer
 
 defaults:
   subject: "Notification"

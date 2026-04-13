@@ -8,7 +8,7 @@ import type { MailerConfig, TemplateLanguage } from '../../types'
 
 const NPX_COMMAND = 'npx -y claude-code-mailer send --stdin'
 
-const HOOK_EVENT_TYPES = ['Notification', 'Stop', 'SubagentStop'] as const
+const HOOK_EVENT_TYPES = ['Notification', 'Stop'] as const
 
 interface HookEntry {
   type: string
@@ -70,12 +70,26 @@ function hasMailerHook(settings: ClaudeSettings, eventType: string): boolean {
   return false
 }
 
-function installHooks(): { installed: number; skipped: number } {
+function installHooks(): { installed: number; skipped: number; cleaned: number } {
   const settings = readClaudeSettings()
   if (!settings.hooks) settings.hooks = {}
 
   let installed = 0
   let skipped = 0
+  let cleaned = 0
+
+  // 清理旧的 SubagentStop hook
+  if (settings.hooks['SubagentStop']) {
+    const before = settings.hooks['SubagentStop'].length
+    settings.hooks['SubagentStop'] = settings.hooks['SubagentStop'].filter(
+      group => !group.hooks?.some(h => h.type === 'command' && isMailerHook(h.command))
+    )
+    if (settings.hooks['SubagentStop'].length === 0) {
+      delete settings.hooks['SubagentStop']
+    }
+    const removedCount = before - (settings.hooks['SubagentStop']?.length || 0)
+    if (removedCount > 0) cleaned += removedCount
+  }
 
   for (const eventType of HOOK_EVENT_TYPES) {
     if (hasMailerHook(settings, eventType)) {
@@ -87,8 +101,8 @@ function installHooks(): { installed: number; skipped: number } {
     installed++
   }
 
-  if (installed > 0) writeClaudeSettings(settings)
-  return { installed, skipped }
+  if (installed > 0 || cleaned > 0) writeClaudeSettings(settings)
+  return { installed, skipped, cleaned }
 }
 
 function saveConfig(config: {
@@ -139,8 +153,12 @@ async function runSetupWizard(): Promise<void> {
     })
     if (p.isCancel(overwrite) || !overwrite) {
       p.cancel('Skipped configuration, installing hooks only.')
-      const { installed, skipped } = installHooks()
-      p.outro(`Hooks: ${installed} installed, ${skipped} already present.`)
+      const { installed, skipped, cleaned } = installHooks()
+      const parts = []
+      if (installed > 0) parts.push(`${installed} installed`)
+      if (skipped > 0) parts.push(`${skipped} already present`)
+      if (cleaned > 0) parts.push(`${cleaned} old SubagentStop removed`)
+      p.outro(`Hooks: ${parts.join(', ')}.`)
       return
     }
   }
@@ -322,12 +340,15 @@ async function runSetupWizard(): Promise<void> {
   })
   p.log.success(`Config saved to ${getGlobalConfigPath()}`)
 
-  const { installed, skipped } = installHooks()
+  const { installed, skipped, cleaned } = installHooks()
   if (installed > 0) {
     p.log.success(`Hooks installed: ${HOOK_EVENT_TYPES.slice(0, installed).join(', ')}`)
   }
   if (skipped > 0) {
     p.log.info(`${skipped} hook(s) already present, skipped.`)
+  }
+  if (cleaned > 0) {
+    p.log.warn(`Removed ${cleaned} old SubagentStop hook(s).`)
   }
 
   p.outro("You're all set! Claude Code will now email you when it needs attention.")

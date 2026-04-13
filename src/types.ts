@@ -1,4 +1,4 @@
-export type HookEventType = 'Notification' | 'Stop' | 'SubagentStop'
+export type HookEventType = 'Notification' | 'Stop'
 export type TemplateLanguage = 'zh-CN' | 'zh-HK' | 'en'
 export type LogLevel = 'info' | 'warn' | 'error' | 'debug'
 

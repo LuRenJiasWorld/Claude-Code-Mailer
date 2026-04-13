@@ -1,7 +1,6 @@
 subjects:
   Notification: "需要你的注意"
   Stop: "任務完成了"
-  SubagentStop: "子任務完成了"
 
 content:
   Notification: |
@@ -20,34 +19,19 @@ content:
     項目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
   
   Stop: |
-    現在時間是 {{timestamp}} 
-    
+    現在時間是 {{timestamp}}
+
     {{#if message}}
-    > {{message}} 
-    
-    {{/if}}工作目錄: {{cwd}} 
-    會話ID: {{sessionId}} 
-    
+    > {{message}}
+
+    {{/if}}工作目錄: {{cwd}}
+    會話ID: {{sessionId}}
+
     請查看終端了解詳情。
-    
+
     ---
     此郵件由 Claude Code Mailer 發送 - 讓您隨時掌握 Claude Code 動態的智能郵件通知系統 🚀
-    項目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
-  
-  SubagentStop: |
-    現在時間是 {{timestamp}} 
-    
-    {{#if message}}
-    > {{message}} 
-    
-    {{/if}}工作目錄: {{cwd}} 
-    會話ID: {{sessionId}} 
-    
-    請查看終端了解詳情。
-    
-    ---
-    此郵件由 Claude Code Mailer 發送 - 讓您隨時掌握 Claude Code 動態的智能郵件通知系統 🚀
-    項目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer 
+    項目地址: https://github.com/LuRenJiasWorld/Claude-Code-Mailer
 
 defaults:
   subject: "通知"

@@ -8,7 +8,7 @@ export function registerSendCommand(program: Command): void {
   program
     .command('send', { isDefault: true })
     .description('Send email notification')
-    .option('-e, --event <type>', 'Event type (Notification|Stop|SubagentStop)', 'Notification')
+    .option('-e, --event <type>', 'Event type (Notification|Stop)', 'Notification')
     .option('-s, --session <id>', 'Session ID', 'unknown')
     .option('-t, --to <email>', 'Recipient email')
     .option('-f, --from <email>', 'Sender email')
@@ -53,7 +53,15 @@ export function registerSendCommand(program: Command): void {
             transcript_path: data.transcript_path
           }
 
-          const eventType = (data.hook_event_name ?? data.event ?? options.event) as HookEventType
+          const rawEventType = data.hook_event_name ?? data.event ?? options.event
+
+          // 兼容旧版本：跳过已废弃的 SubagentStop 事件
+          if (rawEventType === 'SubagentStop') {
+            console.log(JSON.stringify({ success: true, skipped: true, reason: 'SubagentStop is deprecated' }))
+            process.exit(0)
+          }
+
+          const eventType = rawEventType as HookEventType
           const result = await mailer.sendNotification(eventType, sessionInfo, additionalInfo)
 
           console.log(JSON.stringify(result, null, 2))
@@ -65,6 +73,12 @@ export function registerSendCommand(program: Command): void {
           if (options.subject) additionalInfo.subject = options.subject
           if (options.message) additionalInfo.message = options.message
           if (options.details) additionalInfo.details = options.details
+
+          // 兼容旧版本：跳过已废弃的 SubagentStop 事件
+          if (options.event === 'SubagentStop') {
+            console.log('SubagentStop 事件已废弃，跳过发送')
+            process.exit(0)
+          }
 
           const result = await mailer.sendNotification(options.event as HookEventType, sessionInfo, additionalInfo)
 
