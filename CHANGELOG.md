@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.2.0] - 2026-04-13
 
 ### Changed
+- 54cf680 feat(hooks): remove SubagentStop hook registration
+
+
+## [2.2.0] - 2026-04-13
+
+### Changed
 - feat: remove SubagentStop hook registration to reduce notification spam during long tasks
 - install: automatically clean up deprecated SubagentStop hooks from previous versions
 - send: add runtime check to silently skip SubagentStop events for backward compatibility
