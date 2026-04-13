@@ -2,6 +2,7 @@ import type { Command } from 'commander'
 import { ClaudeMailer } from '../../index'
 import { ConfigMissingError } from '../../types'
 import { formatSetupGuide } from '../setup'
+import { cleanupDeprecatedHooks } from '../settings'
 import type { HookEventType, HookPayload } from '../../types'
 
 export function registerSendCommand(program: Command): void {
@@ -55,9 +56,15 @@ export function registerSendCommand(program: Command): void {
 
           const rawEventType = data.hook_event_name ?? data.event ?? options.event
 
-          // 兼容旧版本：跳过已废弃的 SubagentStop 事件
+          // 兼容旧版本：跳过已废弃的 SubagentStop 事件，并自动清理旧 hook
           if (rawEventType === 'SubagentStop') {
-            console.log(JSON.stringify({ success: true, skipped: true, reason: 'SubagentStop is deprecated' }))
+            const cleaned = cleanupDeprecatedHooks()
+            console.log(JSON.stringify({
+              success: true,
+              skipped: true,
+              reason: 'SubagentStop is deprecated',
+              cleaned: cleaned > 0 ? `Removed ${cleaned} deprecated hook(s)` : undefined
+            }))
             process.exit(0)
           }
 

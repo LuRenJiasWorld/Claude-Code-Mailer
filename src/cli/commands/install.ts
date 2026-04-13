@@ -5,24 +5,11 @@ import * as p from '@clack/prompts'
 import type { Command } from 'commander'
 import { Mailer } from '../../mailer'
 import type { MailerConfig, TemplateLanguage } from '../../types'
+import { cleanupDeprecatedHooks, isMailerHook, readClaudeSettings, type ClaudeSettings } from '../settings'
 
 const NPX_COMMAND = 'npx -y claude-code-mailer send --stdin'
 
 const HOOK_EVENT_TYPES = ['Notification', 'Stop'] as const
-
-interface HookEntry {
-  type: string
-  command: string
-}
-
-interface HookGroup {
-  hooks: HookEntry[]
-}
-
-interface ClaudeSettings {
-  hooks?: Record<string, HookGroup[]>
-  [key: string]: unknown
-}
 
 function getClaudeSettingsPath(): string {
   return path.join(os.homedir(), '.claude', 'settings.json')
@@ -30,32 +17,6 @@ function getClaudeSettingsPath(): string {
 
 function getGlobalConfigPath(): string {
   return path.join(os.homedir(), '.claude-code-mailer', '.env')
-}
-
-function readClaudeSettings(): ClaudeSettings {
-  const settingsPath = getClaudeSettingsPath()
-
-  if (!fs.existsSync(settingsPath)) {
-    const claudeDir = path.dirname(settingsPath)
-    if (!fs.existsSync(claudeDir)) {
-      fs.mkdirSync(claudeDir, { recursive: true })
-    }
-    const defaultSettings: ClaudeSettings = { hooks: {} }
-    fs.writeFileSync(settingsPath, JSON.stringify(defaultSettings, null, 2))
-    return defaultSettings
-  }
-
-  const data = fs.readFileSync(settingsPath, 'utf8')
-  return JSON.parse(data) as ClaudeSettings
-}
-
-function writeClaudeSettings(settings: ClaudeSettings): void {
-  fs.writeFileSync(getClaudeSettingsPath(), JSON.stringify(settings, null, 2))
-}
-
-function isMailerHook(command: string): boolean {
-  return /claude-code-mailer(@[^\s]*)?\s+send\s+--stdin/.test(command) ||
-         command.includes('claude-code-mailer/bin/cli.js send --stdin')
 }
 
 function hasMailerHook(settings: ClaudeSettings, eventType: string): boolean {
@@ -76,20 +37,9 @@ function installHooks(): { installed: number; skipped: number; cleaned: number }
 
   let installed = 0
   let skipped = 0
-  let cleaned = 0
 
   // 清理旧的 SubagentStop hook
-  if (settings.hooks['SubagentStop']) {
-    const before = settings.hooks['SubagentStop'].length
-    settings.hooks['SubagentStop'] = settings.hooks['SubagentStop'].filter(
-      group => !group.hooks?.some(h => h.type === 'command' && isMailerHook(h.command))
-    )
-    if (settings.hooks['SubagentStop'].length === 0) {
-      delete settings.hooks['SubagentStop']
-    }
-    const removedCount = before - (settings.hooks['SubagentStop']?.length || 0)
-    if (removedCount > 0) cleaned += removedCount
-  }
+  const cleaned = cleanupDeprecatedHooks()
 
   for (const eventType of HOOK_EVENT_TYPES) {
     if (hasMailerHook(settings, eventType)) {
@@ -101,7 +51,9 @@ function installHooks(): { installed: number; skipped: number; cleaned: number }
     installed++
   }
 
-  if (installed > 0 || cleaned > 0) writeClaudeSettings(settings)
+  if (installed > 0 || cleaned > 0) {
+    fs.writeFileSync(getClaudeSettingsPath(), JSON.stringify(settings, null, 2))
+  }
   return { installed, skipped, cleaned }
 }
 
@@ -383,7 +335,7 @@ export function registerInstallCommand(program: Command): void {
       }
 
       if (removed > 0) {
-        writeClaudeSettings(settings)
+        fs.writeFileSync(getClaudeSettingsPath(), JSON.stringify(settings, null, 2))
         console.log(`Removed ${removed} hook(s).`)
       } else {
         console.log('No Claude Code Mailer hooks found.')
