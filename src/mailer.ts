@@ -174,7 +174,8 @@ export class Mailer {
       timestamp,
       message: additionalInfo.message ?? '',
       cwd: additionalInfo.cwd ?? sessionInfo.cwd ?? '未知',
-      sessionId: sessionInfo.sessionId ?? 'unknown'
+      sessionId: sessionInfo.sessionId ?? 'unknown',
+      last_assistant_message: (additionalInfo.last_assistant_message as string) ?? ''
     }
 
     const template = this.templates.content[eventType]
